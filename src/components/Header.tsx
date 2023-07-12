@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 export default function Header() {
   return (
     <div className="text-white p-5 text-[22px] font-semibold">
