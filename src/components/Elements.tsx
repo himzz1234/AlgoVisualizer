@@ -9,18 +9,24 @@ import {
   HeapSort,
   ShellSort,
 } from "@/sortingAlgos";
+import { Inter } from "next/font/google";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface ElementsProps {
   elements: any;
   setElements: Function;
+  setCount: Function;
   selectedValue: string;
   animationStatus: boolean;
   setAnimationStatus: Function;
 }
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Elements({
   elements,
   setElements,
+  setCount,
   selectedValue,
   animationStatus,
   setAnimationStatus,
@@ -28,6 +34,26 @@ export default function Elements({
   const [swaps, setSwaps] = useState<any>([]);
   const timeoutRef = useRef<any>(null);
   const currentRef = useRef<any>([]);
+  const flagRef = useRef(false);
+
+  const getStyleBasedOnType = (isSwapped: boolean, index: number) => {
+    if (
+      currentRef.current.indices &&
+      Object.values(currentRef.current.indices).includes(index) &&
+      animationStatus
+    ) {
+      if (currentRef.current.type === "comp")
+        return "bg-red-600 scale-110 transtion-all duration-150 ease-in-out";
+      else
+        return "bg-[#cd9c59] scale-110 transtion-all duration-150 ease-in-out";
+    } else if (
+      isSwapped ||
+      (animationStatus && !swaps.length && flagRef.current)
+    )
+      return "bg-green-700 scale-100";
+
+    return "bg-[#064663] scale-100";
+  };
 
   useEffect(() => {
     if (animationStatus) {
@@ -68,15 +94,19 @@ export default function Elements({
 
   useEffect(() => {
     const animate = () => {
+      flagRef.current = true;
       if (!swaps.length) {
         setAnimationStatus(false);
+        flagRef.current = false;
 
         currentRef.current = {};
         return;
       }
 
       const obj: any = swaps.shift();
-      const [i, j] = obj!.indices;
+
+      let indices: object = obj.indices;
+      const [i, j] = Object.values(indices);
 
       currentRef.current = obj;
 
@@ -84,6 +114,7 @@ export default function Elements({
         const newElements = [...prevElements];
 
         if (obj.type === "swap") {
+          setCount((prevCount: number) => prevCount + 1);
           const temp = newElements[i];
           newElements[i] = newElements[j];
           newElements[j] = temp;
@@ -102,34 +133,41 @@ export default function Elements({
     return () => clearTimeout(timeoutRef.current);
   }, [swaps]);
 
+  const remainElements = swaps.flatMap((swap: any) =>
+    Object.values(swap.indices)
+  );
+
   return (
-    <div className="flex items-center space-x-2 lg:space-x-5 mt-10">
-      {elements.map((element: any, index: number) => (
-        <div
-          key={index}
-          className={`${getStyleBasedOnType(
-            animationStatus,
-            currentRef.current,
-            index
-          )} rounded-md flex items-center justify-center w-[30px] lg:w-20 h-20`}
-        >
-          {element}
-        </div>
-      ))}
+    <div className="space-y-10">
+      <div className="flex items-center mt-5 flex-wrap gap-y-5 gap-x-5">
+        {elements.map((element: any, index: number) => {
+          const swapped =
+            remainElements.length && !remainElements.includes(index);
+          return (
+            <div key={index} className="space-y-2 relative mb-5">
+              <div
+                className={`${getStyleBasedOnType(
+                  swapped,
+                  index
+                )} rounded-md flex items-center justify-center w-[30px] lg:w-20 h-20`}
+              >
+                <p>{element}</p>
+              </div>
+              {currentRef.current.indices && (
+                <p
+                  className={`${inter.className} w-full text-center absolute left-1/2 -translate-x-1/2 text-[13.5px] top-[85px]`}
+                >
+                  {Object.values(currentRef.current.indices).includes(index)
+                    ? `( ${Object.keys(currentRef.current.indices).find(
+                        (key) => currentRef.current.indices[key] === index
+                      )} )`
+                    : ""}
+                </p>
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
-
-const getStyleBasedOnType = (status: boolean, active: any, index: number) => {
-  if (active.type === "comp" && active.indices.includes(index) && status) {
-    return "bg-red-600 scale-110 transtion-all duration-150 ease-in-out";
-  } else if (
-    active.type === "swap" &&
-    active.indices.includes(index) &&
-    status
-  ) {
-    return "bg-[#cd9c59] scale-110 transtion-all duration-150 ease-in-out";
-  }
-
-  return "bg-[#064663] scale-100";
-};

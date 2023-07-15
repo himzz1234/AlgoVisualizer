@@ -3,9 +3,14 @@ import { useState, useRef, useEffect } from "react";
 interface TimerProps {
   animationStatus: boolean;
   input: any;
+  selectedValue: string;
 }
 
-export default function Timer({ animationStatus, input }: TimerProps) {
+export default function Timer({
+  animationStatus,
+  input,
+  selectedValue,
+}: TimerProps) {
   const [timer, setTimer] = useState("00.00s");
   const millisecondsRef = useRef(0);
   const timerRef = useRef<any>(null);
@@ -13,7 +18,7 @@ export default function Timer({ animationStatus, input }: TimerProps) {
   useEffect(() => {
     setTimer("00.00s");
     millisecondsRef.current = 0;
-  }, [input]);
+  }, [input, selectedValue]);
 
   useEffect(() => {
     if (animationStatus) {

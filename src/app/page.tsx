@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Select from "react-select";
 import { options } from "@/util/data";
 import Header from "@/components/Header";
@@ -10,6 +10,7 @@ import { Fira_Code } from "next/font/google";
 import Elements from "@/components/Elements";
 import { BsFillPlayFill } from "react-icons/bs";
 import Timer from "@/components/Timer";
+import { ToastContainer } from "react-toastify";
 
 const firaCode = Fira_Code({ subsets: ["latin"] });
 
@@ -18,6 +19,7 @@ export default function Home() {
   const [selectedValue, setSelectedValue] = useState(options[0]);
   const [animationStatus, setAnimationStatus] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [count, setCount] = useState<number>(0);
 
   const submitValue = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -29,7 +31,8 @@ export default function Home() {
       if (regex.test(value)) {
         try {
           const parsedArray = JSON.parse(value);
-          setElements(parsedArray);
+          if (parsedArray.length <= 10 && parsedArray.length >= 2)
+            setElements(parsedArray);
         } catch (error) {
           console.log("Invalid array");
         }
@@ -39,6 +42,10 @@ export default function Home() {
 
   function handleChange(obj: any) {
     setSelectedValue(obj);
+
+    setCount(0);
+    setElements([7, -2, 4, 1, 6, 5, 0, -4, 2]);
+    setAnimationStatus(false);
   }
 
   return (
@@ -57,7 +64,7 @@ export default function Home() {
               } flex items-center space-x-2 bg-[#04293a] px-4 py-2 rounded-md`}
             >
               <BsFillPlayFill />
-              <p>Start</p>
+              <p>Sort</p>
             </button>
 
             <button
@@ -112,30 +119,58 @@ export default function Home() {
             {...{
               elements,
               setElements,
+              setCount,
               selectedValue: selectedValue.value,
               animationStatus,
               setAnimationStatus,
             }}
           />
 
-          <div className="mt-10 flex items-center space-x-2">
-            <h5>Time:</h5>
+          <div className="flex w-full justify-between">
+            <div>
+              <div className="flex items-center space-x-5">
+                <div className="mt-10 flex items-center space-x-2">
+                  <h5 className="text-[14.5px]">Time:</h5>
 
-            <Timer {...{ animationStatus, input: inputRef.current?.value }} />
+                  <Timer
+                    {...{
+                      animationStatus,
+                      input: inputRef.current?.value,
+                      selectedValue: selectedValue.value,
+                    }}
+                  />
+                </div>
+
+                <div className="mt-10 flex items-center space-x-2">
+                  <h5 className="text-[14.5px]">Total Swaps:</h5>
+
+                  <div className="bg-[#04293A] rounded-md w-20 py-2 px-3 outline-none text-sm">
+                    {count}
+                  </div>
+                </div>
+              </div>
+
+              <form
+                onSubmit={submitValue}
+                className="mt-8 flex flex-col space-y-2"
+              >
+                <h5 className="text-[14.5px]">Input:</h5>
+                <input
+                  ref={inputRef}
+                  className={`${
+                    animationStatus && "disabled"
+                  } bg-[#04293A] placeholder:text-[#446b7b] rounded-md w-[300px] py-2 px-3 outline-none`}
+                  placeholder="Enter your input"
+                ></input>
+              </form>
+            </div>
+
+            {/* <div className="w-[400px] bg-[#04293a]">{selectedValue.code}</div> */}
           </div>
-
-          <form onSubmit={submitValue} className="mt-8 flex flex-col space-y-2">
-            <h5>Input:</h5>
-            <input
-              ref={inputRef}
-              className={`${
-                animationStatus && "disabled"
-              } bg-[#04293A] rounded-md w-60 py-2 px-3 outline-none`}
-              placeholder="Enter your input"
-            ></input>
-          </form>
         </div>
       </div>
+
+      <ToastContainer />
     </div>
   );
 }
