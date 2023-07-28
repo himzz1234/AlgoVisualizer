@@ -10,16 +10,15 @@ import {
   ShellSort,
 } from "@/sortingAlgos";
 import { Inter } from "next/font/google";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 interface ElementsProps {
   elements: any;
   setElements: Function;
   setCount: Function;
-  selectedValue: string;
+  selectedSort: string;
   animationStatus: boolean;
   setAnimationStatus: Function;
+  selectedSpeed: number;
 }
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,9 +26,10 @@ export default function Elements({
   elements,
   setElements,
   setCount,
-  selectedValue,
+  selectedSort,
   animationStatus,
   setAnimationStatus,
+  selectedSpeed,
 }: ElementsProps) {
   const [swaps, setSwaps] = useState<any>([]);
   const timeoutRef = useRef<any>(null);
@@ -57,7 +57,7 @@ export default function Elements({
 
   useEffect(() => {
     if (animationStatus) {
-      switch (selectedValue) {
+      switch (selectedSort) {
         case "BubbleSort": {
           const arr = BubbleSort([...elements]);
           setSwaps([...arr]);
@@ -93,6 +93,7 @@ export default function Elements({
   }, [animationStatus]);
 
   useEffect(() => {
+    console.log(selectedSpeed);
     const animate = () => {
       flagRef.current = true;
       if (!swaps.length) {
@@ -125,13 +126,13 @@ export default function Elements({
 
       timeoutRef.current = setTimeout(() => {
         animate();
-      }, 500);
+      }, 500 / selectedSpeed);
     };
 
     animate();
 
     return () => clearTimeout(timeoutRef.current);
-  }, [swaps]);
+  }, [swaps, selectedSpeed]);
 
   const remainElements = swaps.flatMap((swap: any) =>
     Object.values(swap.indices)
@@ -139,7 +140,7 @@ export default function Elements({
 
   return (
     <div className="space-y-10">
-      <div className="flex items-center mt-5 flex-wrap gap-y-5 gap-x-5">
+      <div className="flex items-center mt-5 flex-wrap gap-y-8 lg:gap-y-5 gap-x-2 lg:gap-x-5">
         {elements.map((element: any, index: number) => {
           const swapped =
             remainElements.length && !remainElements.includes(index);
@@ -149,7 +150,7 @@ export default function Elements({
                 className={`${getStyleBasedOnType(
                   swapped,
                   index
-                )} rounded-md flex items-center justify-center w-[30px] lg:w-20 h-20`}
+                )} rounded-md flex items-center justify-center w-[60px] md:w-20 h-20`}
               >
                 <p>{element}</p>
               </div>

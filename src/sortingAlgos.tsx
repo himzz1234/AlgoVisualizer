@@ -1,4 +1,5 @@
-export function BubbleSort(array) {
+// Bubble Sort
+export function BubbleSort(array: Array<Number>) {
   const swaps = [];
 
   let i, j;
@@ -16,10 +17,10 @@ export function BubbleSort(array) {
   return swaps;
 }
 
-// Divide and Conquer Algorithm
-export function QuickSort(arr) {
-  const swaps = [],
-    stack = [];
+// Divide and Conquer Algorithm (Quick Sort)
+export function QuickSort(arr: Array<Number>) {
+  const swaps: { indices: object; type: string }[] = [],
+    stack: Array<any> = [];
 
   stack.push(0);
   stack.push(arr.length - 1);
@@ -30,12 +31,12 @@ export function QuickSort(arr) {
 
     let pivot = partition(arr, start, end, swaps);
 
-    if (pivot - 1 > start) {
+    if (pivot - 1 > start!) {
       stack.push(start);
       stack.push(pivot - 1);
     }
 
-    if (pivot + 1 < end) {
+    if (pivot + 1 < end!) {
       stack.push(pivot + 1);
       stack.push(end);
     }
@@ -44,7 +45,8 @@ export function QuickSort(arr) {
   return swaps;
 }
 
-export function InsertionSort(arr) {
+// Insertion Sort
+export function InsertionSort(arr: Array<Number>) {
   const swaps = [];
 
   for (let i = 1; i < arr.length; i++) {
@@ -59,7 +61,8 @@ export function InsertionSort(arr) {
   return swaps;
 }
 
-export function SelectionSort(arr) {
+// Selection Sort
+export function SelectionSort(arr: Array<Number>) {
   const swaps = [];
   let i, j, min;
 
@@ -80,8 +83,9 @@ export function SelectionSort(arr) {
   return swaps;
 }
 
-export function HeapSort(arr) {
-  const swaps = [];
+// Heap Sort
+export function HeapSort(arr: Array<Number>) {
+  const swaps: { indices: object; type: string }[] = [];
 
   const n = arr.length;
 
@@ -101,8 +105,9 @@ export function HeapSort(arr) {
   return swaps;
 }
 
-export function ShellSort(array) {
-  const swaps = [];
+// Shell Sort
+export function ShellSort(array: Array<Number>) {
+  const swaps: { indices: object; type: string }[] = [];
 
   // Generate the gaps sequence
   let gap = Math.floor(array.length / 2);
@@ -128,7 +133,12 @@ export function ShellSort(array) {
 }
 
 // Helper function for quick sort
-function partition(array, left, right, swaps) {
+function partition(
+  array: Array<Number>,
+  left: number,
+  right: number,
+  swaps: { indices: object; type: string }[]
+) {
   const pivotValue = array[right];
   let pivot = left;
 
@@ -156,7 +166,12 @@ function partition(array, left, right, swaps) {
 }
 
 // Helper function for heap sort
-function heapify(array, n, i, swaps) {
+function heapify(
+  array: Array<Number>,
+  n: number,
+  i: number,
+  swaps: { indices: object; type: string }[]
+) {
   let largest = i;
   const left = 2 * i + 1;
   const right = 2 * i + 2;

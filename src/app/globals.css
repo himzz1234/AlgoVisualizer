@@ -11,3 +11,7 @@
     @apply pointer-events-auto opacity-100 cursor-pointer;
   }
 }
+
+.code-block > pre::-webkit-scrollbar {
+  width: 0px;
+}

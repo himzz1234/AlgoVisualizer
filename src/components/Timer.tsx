@@ -3,13 +3,13 @@ import { useState, useRef, useEffect } from "react";
 interface TimerProps {
   animationStatus: boolean;
   input: any;
-  selectedValue: string;
+  selectedSort: string;
 }
 
 export default function Timer({
   animationStatus,
   input,
-  selectedValue,
+  selectedSort,
 }: TimerProps) {
   const [timer, setTimer] = useState("00.00s");
   const millisecondsRef = useRef(0);
@@ -18,7 +18,7 @@ export default function Timer({
   useEffect(() => {
     setTimer("00.00s");
     millisecondsRef.current = 0;
-  }, [input, selectedValue]);
+  }, [input, selectedSort]);
 
   useEffect(() => {
     if (animationStatus) {

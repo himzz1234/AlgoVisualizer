@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import Select from "react-select";
-import { options } from "@/util/data";
+import { sortOptions, speedOptions } from "@/util/data";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import { AiFillStop } from "react-icons/ai";
@@ -10,16 +10,46 @@ import { Fira_Code } from "next/font/google";
 import Elements from "@/components/Elements";
 import { BsFillPlayFill } from "react-icons/bs";
 import Timer from "@/components/Timer";
-import { ToastContainer } from "react-toastify";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { coldWinterTheme } from "@/util/cold-winter.js";
 
 const firaCode = Fira_Code({ subsets: ["latin"] });
 
 export default function Home() {
   const [elements, setElements] = useState([7, -2, 4, 1, 6, 5, 0, -4, 2]);
-  const [selectedValue, setSelectedValue] = useState(options[0]);
+  const [selectedSpeed, setSelectedSpeed] = useState(speedOptions[3]);
+  const [selectedSort, setselectedSort] = useState(sortOptions[0]);
   const [animationStatus, setAnimationStatus] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [count, setCount] = useState<number>(0);
+
+  const dropdownStyles = {
+    control: (baseStyles: any, state: any) => ({
+      ...baseStyles,
+      "&:hover": {
+        borderColor: "transparent",
+      },
+      borderColor: state.isFocused ? "transparent" : "transparent",
+      backgroundColor: "#04293a",
+      color: "white",
+    }),
+    singleValue: (baseStyles: any, state: any) => ({
+      ...baseStyles,
+      color: "white",
+    }),
+    option: (baseStyles: any, state: any) => ({
+      ...baseStyles,
+      backgroundColor: state.isFocused ? "#064663" : "transparent",
+      color: state.isSelected ? "white" : "white",
+      "&:hover": {
+        backgroundColor: "#064663",
+      },
+    }),
+    menu: (baseStyles: any, state: any) => ({
+      ...baseStyles,
+      backgroundColor: "#04293a",
+    }),
+  };
 
   const submitValue = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -40,23 +70,27 @@ export default function Home() {
     }
   };
 
-  function handleChange(obj: any) {
-    setSelectedValue(obj);
+  function handleSort(obj: any) {
+    setselectedSort(obj);
 
     setCount(0);
     setElements([7, -2, 4, 1, 6, 5, 0, -4, 2]);
     setAnimationStatus(false);
   }
 
+  function handleSpeedValue(obj: any) {
+    setSelectedSpeed(obj);
+  }
+
   return (
-    <div className="flex flex-col bg-[#041C32] min-h-screen">
+    <div className="flex flex-col w-full bg-[#041C32] min-h-screen">
       <Header />
 
-      <div className="flex-1 flex gap-10 px-5 pb-5 text-white">
-        <Sidebar {...{ selectedValue }} />
+      <div className="flex-1 w-full flex lg:flex-row flex-col gap-5 px-5 pb-5 text-white">
+        <Sidebar {...{ selectedSort }} />
 
-        <div className={`py-4 flex-1 ${firaCode.className}`}>
-          <div className="flex items-center gap-5">
+        <div className={`lg:w-[73%] ${firaCode.className}`}>
+          <div className="flex flex-wrap items-center gap-5">
             <button
               onClick={() => setAnimationStatus(true)}
               className={`${
@@ -79,39 +113,24 @@ export default function Home() {
 
             <Select
               instanceId="select-sort"
-              options={options}
-              onChange={handleChange}
-              defaultValue={options[0]}
-              styles={{
-                control: (baseStyles, state) => ({
-                  ...baseStyles,
-                  "&:hover": {
-                    borderColor: "transparent",
-                  },
-                  opacity: animationStatus ? "40%" : "100%",
-                  pointerEvents: animationStatus ? "none" : "auto",
-                  borderColor: state.isFocused ? "transparent" : "transparent",
-                  backgroundColor: "#04293a",
-                  color: "white",
-                  width: "220px",
-                }),
-                singleValue: (baseStyles, state) => ({
-                  ...baseStyles,
-                  color: "white",
-                }),
-                option: (baseStyles, state) => ({
-                  ...baseStyles,
-                  backgroundColor: state.isFocused ? "#064663" : "transparent",
-                  color: state.isSelected ? "white" : "white",
-                  "&:hover": {
-                    backgroundColor: "#064663",
-                  },
-                }),
-                menu: (baseStyles, state) => ({
-                  ...baseStyles,
-                  backgroundColor: "#04293a",
-                }),
-              }}
+              options={sortOptions}
+              onChange={handleSort}
+              defaultValue={sortOptions[0]}
+              styles={dropdownStyles}
+              className={`w-[220px] ${
+                animationStatus
+                  ? "opacity-40 pointer-events-none"
+                  : "opacity-100 pointer-events-auto"
+              }`}
+            />
+
+            <Select
+              instanceId="select-speed"
+              options={speedOptions}
+              onChange={handleSpeedValue}
+              defaultValue={speedOptions[3]}
+              styles={dropdownStyles}
+              className="w-[150px]"
             />
           </div>
 
@@ -120,29 +139,38 @@ export default function Home() {
               elements,
               setElements,
               setCount,
-              selectedValue: selectedValue.value,
+              selectedSort: selectedSort.value,
               animationStatus,
               setAnimationStatus,
+              selectedSpeed: selectedSpeed.value,
             }}
           />
 
-          <div className="flex w-full justify-between">
-            <div>
-              <div className="flex items-center space-x-5">
-                <div className="mt-10 flex items-center space-x-2">
+          <div className="flex lg:flex-row flex-col w-full lg:space-x-10 gap-y-10 lg:gap-y-0 lg:space-y-0 mt-10 lg:mt-10">
+            <div className="code-block order-2 lg:order-1 bg-[#04293a] whitespace-pre p-3 rounded-md w-full h-[200px] md:h-[400px] lg:w-1/2">
+              <SyntaxHighlighter
+                language="javascript"
+                style={coldWinterTheme}
+                showLineNumbers={true}
+              >
+                {selectedSort.code}
+              </SyntaxHighlighter>
+            </div>
+            <div className="order-1 lg:order-2">
+              <div className="flex flex-wrap items-center gap-5">
+                <div className="flex  items-center space-x-2">
                   <h5 className="text-[14.5px]">Time:</h5>
-
                   <Timer
                     {...{
                       animationStatus,
                       input: inputRef.current?.value,
-                      selectedValue: selectedValue.value,
+                      selectedSort: selectedSort.value,
                     }}
                   />
                 </div>
 
-                <div className="mt-10 flex items-center space-x-2">
-                  <h5 className="text-[14.5px]">Total Swaps:</h5>
+                <div className="flex items-center space-x-2">
+                  <h5 className="text-[14.5px]">Swaps:</h5>
 
                   <div className="bg-[#04293A] rounded-md w-20 py-2 px-3 outline-none text-sm">
                     {count}
@@ -159,18 +187,14 @@ export default function Home() {
                   ref={inputRef}
                   className={`${
                     animationStatus && "disabled"
-                  } bg-[#04293A] placeholder:text-[#446b7b] rounded-md w-[300px] py-2 px-3 outline-none`}
+                  } bg-[#04293A] placeholder:text-[#446b7b] rounded-md w-[240px] py-2 px-3 outline-none`}
                   placeholder="Enter your input"
                 ></input>
               </form>
             </div>
-
-            {/* <div className="w-[400px] bg-[#04293a]">{selectedValue.code}</div> */}
           </div>
         </div>
       </div>
-
-      <ToastContainer />
     </div>
   );
 }
