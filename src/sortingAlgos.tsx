@@ -177,13 +177,13 @@ function heapify(
   const right = 2 * i + 2;
 
   if (left < n && array[left] > array[largest]) {
-    swaps.push({ indices: { left: left, larget: largest }, type: "comp" });
+    swaps.push({ indices: { left: left, largest: largest }, type: "comp" });
     largest = left;
   }
 
   if (right < n && array[right] > array[largest]) {
     swaps.push({
-      indices: { right: right, larget: largest },
+      indices: { right: right, largest: largest },
       type: "comp",
     });
     largest = right;

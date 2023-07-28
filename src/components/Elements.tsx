@@ -156,7 +156,7 @@ export default function Elements({
               </div>
               {currentRef.current.indices && (
                 <p
-                  className={`${inter.className} w-full text-center absolute left-1/2 -translate-x-1/2 text-[13.5px] top-[85px]`}
+                  className={`${inter.className} w-full text-center absolute left-1/2 -translate-x-1/2 text-[12.5px] md:text-[13.5px] top-[85px]`}
                 >
                   {Object.values(currentRef.current.indices).includes(index)
                     ? `( ${Object.keys(currentRef.current.indices).find(
