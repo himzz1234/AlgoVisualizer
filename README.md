@@ -1,34 +1,41 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Sorting Algorithm Visualizer App
+
+![mcxmcxm](https://github.com/himzz1234/AlgoVisualizer/assets/99206527/712d7b6c-54e1-4874-bee6-698667139488)
+
+## Introduction
+
+Welcome to the Sorting Algorithm Visualizer app repository! This application is designed to help you visualize various sorting algorithms in action. Built using Next.js and TypeScript, this interactive tool allows you to input your own data or use existing test cases, view the algorithm's code, control the visualization speed, and pause at any point to observe the sorting process in detail.
+
+🌐 Visit [Sorting Algorithm Visualizer](https://algo-visualizer-one.vercel.app/)
+
+## Features
++ Algorithm Selection: Choose from a selection of popular sorting algorithms.
++ Custom Input: Input your own array for visualization.
++ Test Cases: Use predefined test cases to observe algorithms on specific scenarios.
++ Code Display: View the sorting algorithm's code implementation.
++ Visualization Controls: Adjust the visualization speed and pause/resume the process.
+
+## Algorithms Included
++ Bubble Sort: A simple comparison-based algorithm that repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order.
++ Selection Sort: An in-place comparison-based sorting algorithm that divides the input list into two parts: the sublist of items already sorted and the sublist of items to be sorted.
++ Insertion Sort: A simple sorting algorithm that builds the final sorted array one item at a time.
++ Quick Sort: A highly efficient and widely used sorting algorithm based on the divide-and-conquer strategy.
++ Shell Sort: A generalization of insertion sort that allows the exchange of items that are far apart.
++ Heap Sort: A comparison-based sorting algorithm that divides the input into a sorted and an unsorted region, and iteratively shrinks the unsorted region by extracting the largest element and moving that to the sorted region.
+
+## Technologies Used
++ Frontend: Next.js, TypeScript
++ Styling: TailwindCSS
++ Deployment: Vercel
 
 ## Getting Started
+1. Clone the repository: ```git clone https://github.com/himzz1234/AlgoVisualizer.git```
+2. Install dependencies: ```npm install```
+3. Start the development server: ```npm run dev```
 
-First, run the development server:
+## Usage
+1. Visit `http://localhost:3000` in your browser to access the Sorting Algorithm Visualizer app.
+2. Choose an algorithm, customize input, and control visualization settings.
+3. Watch the algorithm in action, analyze the code, and pause/resume as needed.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
