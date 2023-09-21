@@ -1,7 +1,10 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
+import Header from "@/components/HeaderComponent";
+import AlgoContextProvider from "../context/AlgoContext";
+import AnimationProvider from "@/context/AnimationContext";
 
-const inter = Inter({ subsets: ["latin"] });
+const mainfont = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "AlgoVisualizer",
@@ -15,8 +18,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning={true} className={inter.className}>
-        {children}
+      <body
+        suppressHydrationWarning={true}
+        className={`${mainfont.className} bg-[#041c32] flex flex-col w-full min-h-screen text-white`}
+      >
+        <Header />
+
+        <AlgoContextProvider>
+          <AnimationProvider>{children}</AnimationProvider>
+        </AlgoContextProvider>
       </body>
     </html>
   );

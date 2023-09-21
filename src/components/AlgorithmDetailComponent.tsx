@@ -1,0 +1,83 @@
+import React from "react";
+
+interface DetailProps {
+  selectedAlgo: any;
+}
+
+function AlgorithmDetail({ selectedAlgo }: DetailProps) {
+  return (
+    <div className="mt-6 flex space-x-5 border-t-2 border-[#063e59] py-6">
+      <div className="border-r-2 border-r-[#063e59] pr-5">
+        <h4 className="font-medium uppercase text-[16px] text-[#ecb364]">
+          Time Complexity
+        </h4>
+        <table className="border-separate border-spacing-y-3 table-auto w-[250px]">
+          <tbody>
+            <tr className="text-[15px]">
+              <td>Best Case</td>
+              <td className="text-right">
+                {selectedAlgo.complexity.time.best}
+              </td>
+            </tr>
+            <tr className="text-[15px]">
+              <td>Average Case</td>
+              <td className="text-right">
+                {selectedAlgo.complexity.time.average}
+              </td>
+            </tr>
+            <tr className="text-[15px]">
+              <td>Worst Case</td>
+              <td className="text-right">
+                {selectedAlgo.complexity.time.worst}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div className="border-r-2 border-[#063e59] pr-5">
+        <h4 className="font-medium uppercase text-[16px] text-[#ecb364]">
+          Space Complexity
+        </h4>
+        <table className="border-separate border-spacing-y-3 table-auto w-[250px]">
+          <tbody>
+            <tr className="text-[15px]">
+              <td>Best Case</td>
+              <td className="text-right">
+                {selectedAlgo.complexity.space.best}
+              </td>
+            </tr>
+            <tr className="text-[15px]">
+              <td>Average Case</td>
+              <td className="text-right">
+                {selectedAlgo.complexity.space.average}
+              </td>
+            </tr>
+            <tr className="text-[15px]">
+              <td>Worst Case</td>
+              <td className="text-right">
+                {selectedAlgo.complexity.space.worst}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div className="space-y-5">
+        <div className="space-y-2">
+          <h4 className="font-medium uppercase text-[16px] text-[#ecb364]">
+            Stability
+          </h4>
+          <p className="text-[15px]">{selectedAlgo.stable}</p>
+        </div>
+        <div className="space-y-2">
+          <h4 className="font-medium uppercase text-[16px] text-[#ecb364]">
+            Method
+          </h4>
+          <p className="text-[15px]">{selectedAlgo.method}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default AlgorithmDetail;

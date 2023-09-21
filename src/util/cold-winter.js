@@ -1,15 +1,11 @@
-export const coldWinterTheme = {
+export default {
   hljs: {
     display: "block",
-    padding: "0.75em",
-    color: "#abb2bf",
+    color: "#CCCCCC",
     height: "100%",
-    background: "#041c32",
+    background: "transparent",
     overflow: "auto",
-  },
-  "hljs-comment": {
-    color: "#5c6370",
-    fontStyle: "italic",
+    fontSize: "14px",
   },
   "hljs-quote": {
     color: "#5c6370",
@@ -19,7 +15,7 @@ export const coldWinterTheme = {
     color: "#c678dd",
   },
   "hljs-keyword": {
-    color: "#cd9c59",
+    color: "#ebb364",
   },
   "hljs-formula": {
     color: "#c678dd",
@@ -104,7 +100,7 @@ export const coldWinterTheme = {
     color: "#61aeee",
   },
   "hljs-title": {
-    color: "#61aeee",
+    color: "#219fd5",
   },
   "hljs-emphasis": {
     fontStyle: "italic",
