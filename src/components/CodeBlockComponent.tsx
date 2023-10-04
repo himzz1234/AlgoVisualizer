@@ -35,7 +35,7 @@ function CodeBlock({ selectedAlgo }: codeProps) {
   }, [copied]);
 
   return (
-    <div className="w-1/3 border-l-2 border-[#063e59] flex flex-col h-calc overflow-auto scrollbar scrollbar-none">
+    <div className="w-full lg:w-1/3 border-l-2 border-[#063e59] flex flex-col h-[600px] lg:h-calc overflow-auto scrollbar scrollbar-none">
       <div className="bg-[#04293a] py-2 px-3 flex items-center justify-between">
         <Select
           styles={codeblockstyles}

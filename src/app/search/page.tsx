@@ -11,15 +11,16 @@ import AlgorithmModal from "@/components/AlgorithmModalComponent";
 import AlgorithmDetail from "@/components/AlgorithmDetailComponent";
 import { AnimationContext } from "@/context/AnimationContext";
 import Confetti from "react-confetti";
-import Image from "next/image";
+import { MdSystemUpdateAlt } from "react-icons/md";
+import Loading from "@/components/LoadingComponent";
 
 function Search() {
   const [error, setError] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
   const currentTargetRef = useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const { state, changeConfig } = useContext(AlgoContext)!;
+  const { state, isLoading, setIsLoading, changeConfig } =
+    useContext(AlgoContext)!;
   const { currentRef, setAnimationStatus, animationStatus } =
     useContext(AnimationContext)!;
   const [target, setTarget] = useState<number>(9);
@@ -29,6 +30,26 @@ function Search() {
   const selectedSearch: any = searchOptions.find(
     (option) => option.value === state.algorithmType
   );
+
+  const setTestCases = (type: string) => {
+    if (type == "best") {
+      setTarget(selectedSearch.test_cases.best.target);
+      currentTargetRef.current.value = selectedSearch.test_cases.best.target;
+
+      setElements(selectedSearch.test_cases.best.elements);
+      changeConfig({
+        algorithmElements: selectedSearch.test_cases.best.elements,
+      });
+    } else {
+      setTarget(selectedSearch.test_cases.worst.target);
+      currentTargetRef.current.value = selectedSearch.test_cases.worst.target;
+
+      setElements(selectedSearch.test_cases.worst.elements);
+      changeConfig({
+        algorithmElements: selectedSearch.test_cases.worst.elements,
+      });
+    }
+  };
 
   const handleInputChange = (e: React.SyntheticEvent): void => {
     e.preventDefault();
@@ -77,21 +98,14 @@ function Search() {
     };
 
     changeConfig(data);
-    setLoading(false);
+    setIsLoading(false);
   }, []);
 
   return (
     <>
       {isOpen && <AlgorithmModal {...{ setIsOpen, setMetrics, setElements }} />}
-      {loading ? (
-        <div className="flex-1 flex items-center justify-center">
-          <Image
-            src="/images/loader.svg"
-            width={50}
-            height={50}
-            alt="loading"
-          />
-        </div>
+      {isLoading ? (
+        <Loading />
       ) : (
         <>
           {currentRef.current.active.type == "match" && (
@@ -103,9 +117,9 @@ function Search() {
               height={window.innerHeight}
             />
           )}
-          <div className={`flex-1 flex`}>
-            <div className="flex-1 pl-7 pr-4 py-4">
-              <div className={`space-y-2`}>
+          <div className="flex-1 flex lg:flex-row flex-col">
+            <div className="flex-1 pl-4 pr-4 lg:pl-7 lg:pr-4 py-4">
+              <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <h1 className="text-[20px] text-[#ecb364] font-medium uppercase">
                     {selectedSearch.label}
@@ -119,44 +133,44 @@ function Search() {
                     <IoIosOptions size={20} />
                   </div>
                 </div>
-                <p className="w-[800px] leading-[28px] text-[15px]">
+                <p className="w-full lg:w-[800px] leading-[28px] text-[15px]">
                   {selectedSearch.desc}
                 </p>
               </div>
 
               <div className="mt-5">
-                <div className="flex items-center space-x-5">
+                <div className="flex items-center flex-wrap gap-5 lg:gap-0 lg:space-x-5">
                   <ControlPanel
                     {...{
                       setElements,
                       setMetrics,
                     }}
                   />
-                  {/* <div className="bg-[#04293A] rounded-md w-24 py-2 px-3 outline-none text-sm">
-                    <p className="flex items-center">
-                      {metrics.count} <span className="ml-2">Comp</span>
-                    </p>
-                  </div> */}
+
                   <div className="bg-[#04293A] rounded-md w-20 py-2 px-3 outline-none text-sm">
                     {metrics.timer} sec
                   </div>
-                  <form
-                    onSubmit={(e: any) => {
-                      e.preventDefault();
-                      setTarget(currentTargetRef.current?.value);
-                    }}
-                    className="bg-[#04293A] rounded-md w-20 py-2 px-3 outline-none text-sm"
+                  <div
+                    className={`${
+                      currentRef.current.index > -1
+                        ? "disabled"
+                        : "not-disabled"
+                    } bg-[#04293A] flex items-center rounded-md w-20 h-9 outline-none text-sm`}
                   >
                     <input
                       defaultValue={target}
                       ref={currentTargetRef}
-                      className={`${
-                        currentRef.current.index > -1
-                          ? "disabled"
-                          : "not-disabled"
-                      } w-full bg-transparent outline-none`}
+                      className="w-full bg-transparent outline-none py-2 px-2"
                     />
-                  </form>
+                    <div
+                      onClick={() => {
+                        setTarget(currentTargetRef.current?.value);
+                      }}
+                      className="cursor-pointer btnclick border-l-2 border-[#063e59] h-full px-2 rounded-r-md flex items-center justify-center"
+                    >
+                      <MdSystemUpdateAlt size={16} />
+                    </div>
+                  </div>
                 </div>
                 <Elements
                   {...{
@@ -168,7 +182,7 @@ function Search() {
                 />
               </div>
 
-              <div className="flex mt-8 space-x-5 items-baseline">
+              <div className="flex mt-8 space-y-5 lg:space-y-0 lg:space-x-5 lg:flex-row flex-col">
                 <div className="border-2 border-[#063e59] bg-transparent w-[400px] h-[84px] py-1 px-3 rounded-md">
                   <p
                     className={`leading-[27.5px] text-[15.5px] ${
@@ -182,15 +196,30 @@ function Search() {
                 </div>
                 <form
                   onSubmit={handleInputChange}
-                  className="flex flex-col space-y-2"
+                  className={`${
+                    animationStatus ? "disabled" : "not-disabled"
+                  } flex flex-col space-y-3`}
                 >
-                  <h5 className="text-[15px]">Custom Input:</h5>
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => setTestCases("best")}
+                      className="transition-all duration-150 hover:text-white text-[#CCCCCC] text-sm border-2 active:bg-[#064663] hover:bg-[#064663] border-[#063e59] py-1 px-2 rounded"
+                    >
+                      Best case
+                    </button>
+                    <button
+                      onClick={() => setTestCases("worst")}
+                      className="transition-all duration-150 hover:text-white text-[#CCCCCC] text-sm border-2 active:bg-[#064663] hover:bg-[#064663] border-[#063e59] py-1 px-2 rounded"
+                    >
+                      Worst case
+                    </button>
+                  </div>
                   <input
                     ref={inputRef}
                     className={`${
-                      animationStatus ? "disabled" : "not-disabled"
+                      error ? "border-t-2 border-r-red-500" : ""
                     } placeholder:text-[#CCCCCC] bg-[#04293A] transition-all duration-150  border-2 border-[#062743] text-[15px] rounded-sm w-[300px] py-2 px-3 outline-none`}
-                    placeholder="Enter your input"
+                    placeholder="Enter custom case"
                   ></input>
                 </form>
               </div>

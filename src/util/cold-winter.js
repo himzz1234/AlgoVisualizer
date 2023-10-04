@@ -11,6 +11,10 @@ export default {
     color: "#5c6370",
     fontStyle: "italic",
   },
+  "hljs-comment": {
+    color: "#5c6370",
+    fontStyle: "italic",
+  },
   "hljs-doctag": {
     color: "#c678dd",
   },

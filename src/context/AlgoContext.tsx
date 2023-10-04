@@ -15,6 +15,8 @@ interface Props {
 
 interface ContextValues {
   state: state;
+  isLoading: boolean;
+  setIsLoading: Function;
   changeConfig: (state: {}) => void;
 }
 
@@ -29,6 +31,7 @@ export default function AlgoProvider({ children, ...props }: Props) {
   };
 
   const [state, setState] = useState(initialState);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleStateChange = (newState: {}) => {
     const updatedState = { ...state, ...newState };
@@ -36,7 +39,14 @@ export default function AlgoProvider({ children, ...props }: Props) {
   };
 
   return (
-    <AlgoContext.Provider value={{ state, changeConfig: handleStateChange }}>
+    <AlgoContext.Provider
+      value={{
+        state,
+        isLoading,
+        setIsLoading,
+        changeConfig: handleStateChange,
+      }}
+    >
       {children}
     </AlgoContext.Provider>
   );

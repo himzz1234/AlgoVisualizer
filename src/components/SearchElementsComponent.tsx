@@ -26,7 +26,6 @@ export default function Elements({
     useContext(AnimationContext)!;
 
   const getStyleBasedOnType = (index: number): string => {
-    console.log(elements.indexOf(Number(target)));
     if (currentRef.current.active.position) {
       if (index == elements.indexOf(Number(target))) {
         return "border-[2px] border-dashed border-[#E0E0E0]";

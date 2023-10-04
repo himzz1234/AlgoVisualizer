@@ -1,17 +1,20 @@
 import Link from "next/link";
+import { useContext } from "react";
 import { GoChevronRight } from "react-icons/go";
 import { TiSortNumericallyOutline } from "react-icons/ti";
 import { BiSearchAlt } from "react-icons/bi";
 import { PiGraphDuotone, PiTreeStructure } from "react-icons/pi";
 import { useRouter } from "next/navigation";
+import { AlgoContext } from "@/context/AlgoContext";
 
 type CardProps = {
   name: string;
-  color: string;
+  color?: string;
   disabled: boolean;
 };
 
 function AlgorithmCard({ name, disabled, color }: CardProps) {
+  const { setIsLoading } = useContext(AlgoContext)!;
   const router = useRouter();
   let Icon: any;
   const getDesc = (name: string) => {
@@ -35,12 +38,15 @@ function AlgorithmCard({ name, disabled, color }: CardProps) {
   return (
     <div
       style={{ borderTopColor: color }}
-      onClick={() => router.push(`/${name.toLowerCase()}`)}
+      onClick={() => {
+        router.push(`/${name.toLowerCase()}`);
+        setIsLoading(true);
+      }}
       className={`${
         disabled
-          ? "opacity-50 pointer-events-none"
+          ? "opacity-40 pointer-events-none border-t-[#063e59]"
           : "hover:bg-[#04293a] opacity-100 pointer-events-auto"
-      }  transition-all duration-150 border-2 border-[#063e59] h-60 w-96 rounded-md px-4 py-4 flex flex-col space-y-2`}
+      } cursor-pointer transition-all duration-150 border-2 h-full border-[#063e59] rounded-md px-4 py-4 flex flex-col space-y-2`}
     >
       <h2 className="text-xl font-medium uppercase">{name}</h2>
       <p className="text-[14px] w-full flex-1 text-[#CCCCCC] leading-[25px]">

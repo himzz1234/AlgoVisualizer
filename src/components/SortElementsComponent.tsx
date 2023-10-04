@@ -29,6 +29,7 @@ export default function Elements({
   const { state } = useContext(AlgoContext)!;
   const { steps, setSteps, animationStatus, setAnimationStatus, currentRef } =
     useContext(AnimationContext)!;
+  const blockRefs = useRef(Array(elements.length).fill(null));
 
   const getStyleBasedOnType = (index: number): string => {
     if (currentRef.current.active.type === "sorting-finish") {
@@ -95,6 +96,8 @@ export default function Elements({
       currentRef.current.active = obj;
       if (obj.position) {
         var [i, j]: number[] = Object.values(obj.position);
+        var a = blockRefs.current[i];
+        var b = blockRefs.current[j];
       }
 
       setElements((prevElements: number[]) => {
@@ -131,11 +134,15 @@ export default function Elements({
       <div className="flex items-center mt-5 flex-wrap gap-y-8 lg:gap-y-5 gap-x-2 lg:gap-x-5">
         {elements.map((element: number, index: number) => {
           return (
-            <div key={index} className="space-y-2 relative mb-5">
+            <div
+              key={index}
+              ref={(e) => (blockRefs.current[index] = e)}
+              className="space-y-2 relative mb-5"
+            >
               <div
                 className={`${getStyleBasedOnType(
                   index
-                )} rounded-md flex items-center justify-center w-[60px] md:w-[74px] h-[74px]`}
+                )} rounded-md flex items-center justify-center w-[60px] md:w-[74px] h-[74px] transition-all duration-150`}
               >
                 <p className={`${inconsolata.className} text-[18px]`}>
                   {element}

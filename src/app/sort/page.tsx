@@ -12,17 +12,31 @@ import { AnimationContext } from "@/context/AnimationContext";
 import AlgorithmDetail from "@/components/AlgorithmDetailComponent";
 import Confetti from "react-confetti";
 import Image from "next/image";
+import Loading from "@/components/LoadingComponent";
 
 function Sort() {
-  const [error, setError] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
-  const { state, changeConfig } = useContext(AlgoContext)!;
+  const { state, isLoading, setIsLoading, changeConfig } =
+    useContext(AlgoContext)!;
   const { animationStatus, currentRef, setAnimationStatus, steps } =
     useContext(AnimationContext)!;
   const [metrics, setMetrics] = useState({ count: 0, timer: 0 });
   const [elements, setElements] = useState([7, -2, 4, 1, 6, 5, 0, -4, 2]);
+
+  const setTestCases = (type: string) => {
+    if (type == "best") {
+      setElements(selectedSort.test_cases.best.elements);
+      changeConfig({
+        algorithmElements: selectedSort.test_cases.best.elements,
+      });
+    } else {
+      setElements(selectedSort.test_cases.worst.elements);
+      changeConfig({
+        algorithmElements: selectedSort.test_cases.worst.elements,
+      });
+    }
+  };
 
   const selectedSort: any = sortOptions.find(
     (option) => option.value === state.algorithmType
@@ -45,15 +59,9 @@ function Sort() {
           if (parsedArray.length <= 10 && parsedArray.length >= 2) {
             setElements(parsedArray);
             changeConfig({ algorithmElements: parsedArray });
-
-            setError("");
-          } else setError("Array length: 2-10 numbers");
-        } catch (error) {
-          setError("Invalid array");
-        }
-      } else setError("Invalid array");
-    } else {
-      setError("Input field cannot be empty");
+          }
+        } catch (error) {}
+      }
     }
   };
 
@@ -69,21 +77,14 @@ function Sort() {
     };
 
     changeConfig(data);
-    setLoading(false);
+    setIsLoading(false);
   }, []);
 
   return (
     <>
       {isOpen && <AlgorithmModal {...{ setIsOpen, setMetrics, setElements }} />}
-      {loading ? (
-        <div className="flex-1 flex items-center justify-center">
-          <Image
-            src="/images/loader.svg"
-            width={50}
-            height={50}
-            alt="loading"
-          />
-        </div>
+      {isLoading ? (
+        <Loading />
       ) : (
         <>
           {currentRef.current.index == steps.length - 1 && (
@@ -144,7 +145,7 @@ function Sort() {
                   }}
                 />
               </div>
-              <div className="flex mt-8 space-x-5 items-baseline">
+              <div className="flex mt-8 space-x-5">
                 <div className="border-2 border-[#063e59] bg-transparent w-[400px] h-[84px] py-1 px-3 rounded-md">
                   <p
                     className={`leading-[27.5px] text-[15.5px] ${
@@ -161,15 +162,28 @@ function Sort() {
 
                 <form
                   onSubmit={handleInputChange}
-                  className="flex flex-col space-y-2"
+                  className={`${
+                    animationStatus ? "disabled" : "not-disabled"
+                  }  flex flex-col space-y-3`}
                 >
-                  <h5 className="text-[15px]">Custom Input:</h5>
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => setTestCases("best")}
+                      className="transition-all duration-150 hover:text-white text-[#CCCCCC] text-sm border-2 active:bg-[#064663] hover:bg-[#064663] border-[#063e59] py-1 px-2 rounded"
+                    >
+                      Best case
+                    </button>
+                    <button
+                      onClick={() => setTestCases("worst")}
+                      className="transition-all duration-150 hover:text-white text-[#CCCCCC] text-sm border-2 active:bg-[#064663] hover:bg-[#064663] border-[#063e59] py-1 px-2 rounded"
+                    >
+                      Worst case
+                    </button>
+                  </div>
                   <input
                     ref={inputRef}
-                    className={`${
-                      animationStatus ? "disabled" : "not-disabled"
-                    } placeholder:text-[#CCCCCC] bg-[#04293A] transition-all duration-150  border-2 border-[#062743] text-[15px] rounded-sm w-[300px] py-2 px-3 outline-none`}
-                    placeholder="Enter your input"
+                    className="placeholder:text-[#CCCCCC] bg-[#04293A] transition-all duration-150  border-2 border-[#062743] text-[15px] rounded-sm w-[300px] py-2 px-3 outline-none"
+                    placeholder="Enter custom case"
                   ></input>
                 </form>
               </div>

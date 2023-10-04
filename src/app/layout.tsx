@@ -22,10 +22,11 @@ export default function RootLayout({
         suppressHydrationWarning={true}
         className={`${mainfont.className} bg-[#041c32] flex flex-col w-full min-h-screen text-white`}
       >
-        <Header />
-
         <AlgoContextProvider>
-          <AnimationProvider>{children}</AnimationProvider>
+          <AnimationProvider>
+            <Header />
+            {children}
+          </AnimationProvider>
         </AlgoContextProvider>
       </body>
     </html>

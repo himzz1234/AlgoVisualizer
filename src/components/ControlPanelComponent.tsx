@@ -52,7 +52,7 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
       Array(length)
         .fill("")
         .forEach(() => {
-          newElements.push(Math.floor(Math.random() * 300));
+          newElements.push(Math.floor(Math.random() * 201) - 100);
         });
 
       state.algorithmElements = [...newElements];
@@ -132,7 +132,7 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
   };
 
   return (
-    <div className="flex items-center space-x-5">
+    <div className="flex items-center gap-5 lg:gap-0 lg:space-x-5 flex-wrap lg:flex-nowrap">
       <div className="flex items-center space-x-4">
         <button
           onClick={previousStep}
@@ -151,14 +151,16 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
             currentRef.current.index == steps.length - 1
               ? "disabled"
               : "not-disabled"
-          } control-btn w-[120px]`}
+          } control-btn w-[50px] lg:w-[120px]`}
         >
           {!animationStatus ? (
             <BsFillPlayFill color="white" size={20} />
           ) : (
             <BsFillPauseFill color="white" size={20} />
           )}
-          <p>{!animationStatus ? "Play" : "Pause"}</p>
+          <p className="lg:block hidden">
+            {!animationStatus ? "Play" : "Pause"}
+          </p>
         </button>
 
         <button
@@ -189,7 +191,7 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
 
       <Select
         styles={styles}
-        className="w-[150px]"
+        className="w-[100px] lg:w-[150px]"
         options={speedOptions}
         instanceId="select-speed"
         defaultValue={speedOptions[3]}

@@ -1,30 +1,38 @@
 "use client";
 
 import AlgorithmCard from "@/components/AlgorithmCardComponent";
+import Loading from "@/components/LoadingComponent";
+import { AlgoContext } from "@/context/AlgoContext";
+import { useContext, useEffect } from "react";
 
 function Home() {
-  return (
-    <div className="flex-1 py-6l flex flex-col">
-      {/* <h1 className="text-center text-2xl font-medium">
-        Unlock the Power of Algorithms
-      </h1>
-      <p className="text-[16px] mt-3 text-[#E0E0E0]">Start Exploring Now!</p> */}
+  const { isLoading, setIsLoading } = useContext(AlgoContext)!;
 
-      <div className="my-6 relative flex-1">
-        <div className="absolute top-10 left-1/2 -translate-x-1/2">
-          <AlgorithmCard name="Sort" disabled={false} color="#007BFF" />
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
+  return (
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className="lg:flex-1 py-6 px-4 lg:px-0 grid grid-cols-1 md:grid-cols-2 relative gap-5 lg:gap-0">
+          <div className=" h-60 w-full lg:w-96 lg:absolute lg:top-20 lg:left-1/2 lg:-translate-x-1/2">
+            <AlgorithmCard name="Sort" disabled={false} color="#007BFF" />
+          </div>
+          <div className="h-60 w-full lg:w-96 lg:absolute lg:bottom-20 lg:left-1/2 lg:-translate-x-1/2">
+            <AlgorithmCard name="Search" disabled={false} color="#28A745" />
+          </div>
+          <div className="h-60 w-full lg:w-96 lg:absolute lg:top-1/2 lg:left-40 lg:-translate-y-1/2">
+            <AlgorithmCard name="Graph" disabled={true} />
+          </div>
+          <div className="h-60 w-full lg:w-96 lg:absolute lg:top-1/2 lg:right-40 lg:-translate-y-1/2">
+            <AlgorithmCard name="Trees" disabled={true} />
+          </div>
         </div>
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
-          <AlgorithmCard name="Search" disabled={false} color="#28A745" />
-        </div>
-        <div className="absolute top-1/2 left-40 -translate-y-1/2">
-          <AlgorithmCard name="Graph" disabled={true} color="#FFA500" />
-        </div>
-        <div className="absolute top-1/2 right-40 -translate-y-1/2">
-          <AlgorithmCard name="Trees" disabled={true} color="#8B4513" />
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 

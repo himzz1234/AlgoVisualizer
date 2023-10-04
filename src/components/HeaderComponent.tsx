@@ -1,14 +1,21 @@
 "use client";
 
+import { AlgoContext } from "@/context/AlgoContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
 import { AiFillGithub } from "react-icons/ai";
+import { BsFillQuestionCircleFill } from "react-icons/bs";
 
 export default function Header() {
+  const { isLoading } = useContext(AlgoContext)!;
   const router = useRouter();
+
+  if (isLoading) return;
+
   return (
-    <div className="text-white pr-4 border-b-2 border-[#063e59] pl-1 lg:px-3 h-20 text-[22px] font-semibold flex items-center w-full justify-between">
-      <div onClick={() => router.replace("/")}>
+    <div className="text-white pr-4 border-b-2 border-[#063e59] pl-1 lg:px-3 h-20 text-[22px] font-semibold flex items-center w-full space-x-5">
+      <div onClick={() => router.replace("/")} className="flex-1">
         <img
           alt="logo"
           src="/images/algologo.png"
@@ -16,6 +23,7 @@ export default function Header() {
         />
       </div>
 
+      {/* <BsFillQuestionCircleFill size={24} /> */}
       <Link target="_blank" href="https://github.com/himzz1234/AlgoVisualizer">
         <AiFillGithub size={28} />
       </Link>
