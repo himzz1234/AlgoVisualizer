@@ -48,8 +48,9 @@ function AlgorithmModal({ setIsOpen, setMetrics, setElements }: ModalProps) {
           </div>
         </div>
         <ul>
-          {Object.keys(category.algorithms).map((item) => (
+          {Object.keys(category.algorithms).map((item, index) => (
             <li
+              key={index}
               onClick={() => switchAlgorithm(item)}
               className={`cursor-pointer px-5 py-3 ${
                 state.algorithmType == item && "bg-[#064663]"
