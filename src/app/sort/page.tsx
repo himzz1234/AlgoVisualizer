@@ -11,11 +11,11 @@ import ControlPanel from "@/components/ControlPanelComponent";
 import { AnimationContext } from "@/context/AnimationContext";
 import AlgorithmDetail from "@/components/AlgorithmDetailComponent";
 import Confetti from "react-confetti";
-import Image from "next/image";
 import Loading from "@/components/LoadingComponent";
+import { AiFillQuestionCircle } from "react-icons/ai";
+import TestCases from "@/components/TestCasesComponent";
 
 function Sort() {
-  const inputRef = useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { state, isLoading, setIsLoading, changeConfig } =
     useContext(AlgoContext)!;
@@ -24,46 +24,9 @@ function Sort() {
   const [metrics, setMetrics] = useState({ count: 0, timer: 0 });
   const [elements, setElements] = useState([7, -2, 4, 1, 6, 5, 0, -4, 2]);
 
-  const setTestCases = (type: string) => {
-    if (type == "best") {
-      setElements(selectedSort.test_cases.best.elements);
-      changeConfig({
-        algorithmElements: selectedSort.test_cases.best.elements,
-      });
-    } else {
-      setElements(selectedSort.test_cases.worst.elements);
-      changeConfig({
-        algorithmElements: selectedSort.test_cases.worst.elements,
-      });
-    }
-  };
-
   const selectedSort: any = sortOptions.find(
     (option) => option.value === state.algorithmType
   );
-
-  const handleInputChange = (e: React.SyntheticEvent): void => {
-    e.preventDefault();
-    currentRef.current.index = -1;
-
-    currentRef.current.active = [];
-    setMetrics({ timer: 0, count: 0 });
-
-    if (inputRef.current?.value) {
-      const regex = /^\[\s*-?\d+(?:\s*,\s*-?\d+)*\s*\]$/;
-
-      const value: string = inputRef.current.value;
-      if (regex.test(value)) {
-        try {
-          const parsedArray = JSON.parse(value);
-          if (parsedArray.length <= 10 && parsedArray.length >= 2) {
-            setElements(parsedArray);
-            changeConfig({ algorithmElements: parsedArray });
-          }
-        } catch (error) {}
-      }
-    }
-  };
 
   useEffect(() => {
     currentRef.current = { active: [], index: -1 };
@@ -97,14 +60,17 @@ function Sort() {
             />
           )}
 
-          <div className="flex-1 flex">
+          <div className="flex-1 flex lg:flex-row flex-col">
             <div className="flex-1 pl-7 pr-4 py-4">
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <h1 className="text-[20px] text-[#ecb364] font-medium uppercase">
+                <div className="flex items-center space-x-4">
+                  <h1 className="text-[20px] flex-1 text-[#ecb364] font-medium uppercase">
                     {selectedSort.label}
                   </h1>
                   <div
+                    data-tooltip-id="my-tooltip"
+                    data-tooltip-content="Choose between a set of different algorithms."
+                    data-tooltip-delay-show={1000}
                     onClick={() => {
                       setIsOpen(true);
                     }}
@@ -115,13 +81,13 @@ function Sort() {
                     <IoIosOptions size={20} />
                   </div>
                 </div>
-                <p className="w-[800px] leading-[28px] text-[15px]">
+                <p className="lg:w-[800px] leading-[28px] text-[15px]">
                   {selectedSort.desc}
                 </p>
               </div>
 
               <div className="mt-5">
-                <div className="flex items-center space-x-5">
+                <div className="flex items-center flex-wrap gap-5 lg:gap-0 lg:space-x-5">
                   <ControlPanel
                     {...{
                       setElements,
@@ -145,7 +111,7 @@ function Sort() {
                   }}
                 />
               </div>
-              <div className="flex mt-8 space-x-5">
+              <div className="flex mt-8 space-y-5 md:space-y-0 md:space-x-5 md:flex-row flex-col">
                 <div className="border-2 border-[#063e59] bg-transparent w-[400px] h-[84px] py-1 px-3 rounded-md">
                   <p
                     className={`leading-[27.5px] text-[15.5px] ${
@@ -160,32 +126,10 @@ function Sort() {
                   </p>
                 </div>
 
-                <form
-                  onSubmit={handleInputChange}
-                  className={`${
-                    animationStatus ? "disabled" : "not-disabled"
-                  }  flex flex-col space-y-3`}
-                >
-                  <div className="flex items-center space-x-2">
-                    <button
-                      onClick={() => setTestCases("best")}
-                      className="transition-all duration-150 hover:text-white text-[#CCCCCC] text-sm border-2 active:bg-[#064663] hover:bg-[#064663] border-[#063e59] py-1 px-2 rounded"
-                    >
-                      Best case
-                    </button>
-                    <button
-                      onClick={() => setTestCases("worst")}
-                      className="transition-all duration-150 hover:text-white text-[#CCCCCC] text-sm border-2 active:bg-[#064663] hover:bg-[#064663] border-[#063e59] py-1 px-2 rounded"
-                    >
-                      Worst case
-                    </button>
-                  </div>
-                  <input
-                    ref={inputRef}
-                    className="placeholder:text-[#CCCCCC] bg-[#04293A] transition-all duration-150  border-2 border-[#062743] text-[15px] rounded-sm w-[300px] py-2 px-3 outline-none"
-                    placeholder="Enter custom case"
-                  ></input>
-                </form>
+                <TestCases
+                  selectedAlgo={selectedSort}
+                  {...{ setMetrics, setElements }}
+                />
               </div>
 
               <AlgorithmDetail selectedAlgo={selectedSort} />

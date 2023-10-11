@@ -2,7 +2,6 @@
 
 import { AlgoContext } from "@/context/AlgoContext";
 import { AnimationContext } from "@/context/AnimationContext";
-import { Inconsolata } from "next/font/google";
 import { useContext, useEffect, useRef } from "react";
 import { colorConfig, LinearSearch, BinarySearch } from "@/searchingAlgos";
 
@@ -13,7 +12,6 @@ interface ElementProps {
   target: number;
 }
 
-const inconsolata = Inconsolata({ subsets: ["latin"] });
 export default function Elements({
   elements,
   setMetrics,
@@ -99,10 +97,10 @@ export default function Elements({
     <div className="space-y-10">
       <div className="flex items-center mt-5 flex-wrap gap-y-8 lg:gap-y-5 gap-x-2 lg:gap-x-5">
         {elements.map((element: number, index: number) => {
-          const obj = currentRef.current.active.position;
-          const type = currentRef.current.active.type;
+          const obj: any = currentRef.current.active.position;
+          const type: any = currentRef.current.active.type;
 
-          const color =
+          const color: any =
             obj &&
             colorConfig[
               `${Object.keys(obj).find((key) => obj[key] === index)}_${type}`
@@ -116,9 +114,7 @@ export default function Elements({
                   index
                 )} rounded-md flex items-center justify-center w-[60px] md:w-[74px] h-[74px]`}
               >
-                <p className={`${inconsolata.className} text-[18px]`}>
-                  {element}
-                </p>
+                <p className={`font-['Inconsolata'] text-[18px]`}>{element}</p>
               </div>
 
               {currentRef.current.active.position && (

@@ -1,10 +1,10 @@
+"use client";
+
 import "./globals.css";
-import { Inter } from "next/font/google";
 import Header from "@/components/HeaderComponent";
 import AlgoContextProvider from "../context/AlgoContext";
 import AnimationProvider from "@/context/AnimationContext";
-
-const mainfont = Inter({ subsets: ["latin"] });
+import { Tooltip } from "react-tooltip";
 
 export const metadata = {
   title: "AlgoVisualizer",
@@ -20,12 +20,22 @@ export default function RootLayout({
     <html lang="en">
       <body
         suppressHydrationWarning={true}
-        className={`${mainfont.className} bg-[#041c32] flex flex-col w-full min-h-screen text-white`}
+        className={`font-['Inter'] bg-[#041c32] flex flex-col w-full min-h-screen text-white`}
       >
         <AlgoContextProvider>
           <AnimationProvider>
             <Header />
             {children}
+
+            <Tooltip
+              id="my-tooltip"
+              place="top-start"
+              opacity={1}
+              style={{
+                backgroundColor: "#064663",
+                color: "white",
+              }}
+            />
           </AnimationProvider>
         </AlgoContextProvider>
       </body>

@@ -110,8 +110,8 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
     }
 
     if (steps[currentRef.current.index + 1].type == "swap") {
-      const [a, b]: Array<number> = Object.values(
-        steps[currentRef.current.index + 1].position
+      const [a, b]: number[] = Object.values(
+        steps[currentRef.current.index + 1].position!
       );
 
       setElements((prevElements: number[]) => {
@@ -135,6 +135,9 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
     <div className="flex items-center gap-5 lg:gap-0 lg:space-x-5 flex-wrap lg:flex-nowrap">
       <div className="flex items-center space-x-4">
         <button
+          data-tooltip-id="my-tooltip"
+          data-tooltip-content="Go back one step in the animation."
+          data-tooltip-delay-show={1000}
           onClick={previousStep}
           className={`${
             animationStatus || currentRef.current.index < 0
@@ -146,6 +149,9 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
         </button>
 
         <button
+          data-tooltip-id="my-tooltip"
+          data-tooltip-content="Play or pause the animation."
+          data-tooltip-delay-show={1000}
           onClick={!animationStatus ? startAnimation : stopAnimation}
           className={`${
             currentRef.current.index == steps.length - 1
@@ -164,6 +170,9 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
         </button>
 
         <button
+          data-tooltip-id="my-tooltip"
+          data-tooltip-content="Advance one step in the animation."
+          data-tooltip-delay-show={1000}
           onClick={nextStep}
           className={`${
             animationStatus || currentRef.current.index >= steps.length - 1
@@ -175,6 +184,9 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
         </button>
 
         <button
+          data-tooltip-id="my-tooltip"
+          data-tooltip-content="Create a new random set of elements."
+          data-tooltip-delay-show={1000}
           onClick={generateRandomElements}
           className={`${
             currentRef.current.index > -1 || animationStatus
@@ -184,7 +196,13 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
         >
           <BiShuffle color="white" size={20} />
         </button>
-        <button onClick={resetElements} className="control-btn">
+        <button
+          data-tooltip-id="my-tooltip"
+          data-tooltip-content="Restore the original elements."
+          data-tooltip-delay-show={1000}
+          onClick={resetElements}
+          className="control-btn"
+        >
           <MdRestartAlt color="white" size={20} />
         </button>
       </div>

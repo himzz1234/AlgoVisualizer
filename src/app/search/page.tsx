@@ -11,80 +11,23 @@ import AlgorithmModal from "@/components/AlgorithmModalComponent";
 import AlgorithmDetail from "@/components/AlgorithmDetailComponent";
 import { AnimationContext } from "@/context/AnimationContext";
 import Confetti from "react-confetti";
-import { MdSystemUpdateAlt } from "react-icons/md";
+import { BiSolidPencil } from "react-icons/bi";
 import Loading from "@/components/LoadingComponent";
+import TestCases from "@/components/TestCasesComponent";
 
 function Search() {
-  const [error, setError] = useState<string>("");
-  const inputRef = useRef<HTMLInputElement>(null);
   const currentTargetRef = useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const { state, isLoading, setIsLoading, changeConfig } =
     useContext(AlgoContext)!;
-  const { currentRef, setAnimationStatus, animationStatus } =
-    useContext(AnimationContext)!;
-  const [target, setTarget] = useState<number>(9);
+  const { currentRef, setAnimationStatus } = useContext(AnimationContext)!;
+  const [target, setTarget] = useState<any>(9);
   const [metrics, setMetrics] = useState({ count: 0, timer: 0 });
   const [elements, setElements] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
   const selectedSearch: any = searchOptions.find(
     (option) => option.value === state.algorithmType
   );
-
-  const setTestCases = (type: string) => {
-    if (type == "best") {
-      setTarget(selectedSearch.test_cases.best.target);
-      currentTargetRef.current.value = selectedSearch.test_cases.best.target;
-
-      setElements(selectedSearch.test_cases.best.elements);
-      changeConfig({
-        algorithmElements: selectedSearch.test_cases.best.elements,
-      });
-    } else {
-      setTarget(selectedSearch.test_cases.worst.target);
-      currentTargetRef.current.value = selectedSearch.test_cases.worst.target;
-
-      setElements(selectedSearch.test_cases.worst.elements);
-      changeConfig({
-        algorithmElements: selectedSearch.test_cases.worst.elements,
-      });
-    }
-  };
-
-  const handleInputChange = (e: React.SyntheticEvent): void => {
-    e.preventDefault();
-    currentRef.current.index = -1;
-
-    currentRef.current.active = [];
-    setMetrics({ timer: 0, count: 0 });
-
-    if (inputRef.current?.value) {
-      const regex = /^\[\s*-?\d+(?:\s*,\s*-?\d+)*\s*\]$/;
-
-      const value: string = inputRef.current.value;
-      if (regex.test(value)) {
-        try {
-          const parsedArray = JSON.parse(value);
-          if (parsedArray.length <= 10 && parsedArray.length >= 2) {
-            setElements(parsedArray);
-            changeConfig({ algorithmElements: parsedArray });
-
-            setError("");
-          } else setError("Array length: 2-10 numbers");
-        } catch (error) {
-          setError("Invalid array");
-        }
-      } else setError("Invalid array");
-    } else {
-      setError("Input field cannot be empty");
-    }
-  };
-
-  const currentInstruction = (): string => {
-    if (currentRef.current.index < 0) {
-      return `Choose a searching algorithm and click 'Play' to see it in action.`;
-    } else return currentRef.current.active.detail;
-  };
 
   useEffect(() => {
     currentRef.current = { active: [], index: -1 };
@@ -125,6 +68,9 @@ function Search() {
                     {selectedSearch.label}
                   </h1>
                   <div
+                    data-tooltip-id="my-tooltip"
+                    data-tooltip-content="Choose between a set of different algorithms."
+                    data-tooltip-delay-show={1000}
                     onClick={() => {
                       setIsOpen(true);
                     }}
@@ -151,6 +97,9 @@ function Search() {
                     {metrics.timer} sec
                   </div>
                   <div
+                    data-tooltip-id="my-tooltip"
+                    data-tooltip-content="Enter the element to search for in the array."
+                    data-tooltip-delay-show={1000}
                     className={`${
                       currentRef.current.index > -1
                         ? "disabled"
@@ -166,9 +115,9 @@ function Search() {
                       onClick={() => {
                         setTarget(currentTargetRef.current?.value);
                       }}
-                      className="cursor-pointer btnclick border-l-2 border-[#063e59] h-full px-2 rounded-r-md flex items-center justify-center"
+                      className="cursor-pointer btnclick bg-[#064663] h-full px-2 rounded-r-md flex items-center justify-center"
                     >
-                      <MdSystemUpdateAlt size={16} />
+                      <BiSolidPencil size={14} />
                     </div>
                   </div>
                 </div>
@@ -182,7 +131,7 @@ function Search() {
                 />
               </div>
 
-              <div className="flex mt-8 space-y-5 lg:space-y-0 lg:space-x-5 lg:flex-row flex-col">
+              <div className="flex mt-8 space-y-5 md:space-y-0 md:space-x-5 md:flex-row flex-col">
                 <div className="border-2 border-[#063e59] bg-transparent w-[400px] h-[84px] py-1 px-3 rounded-md">
                   <p
                     className={`leading-[27.5px] text-[15.5px] ${
@@ -191,37 +140,16 @@ function Search() {
                         : "text-white"
                     }`}
                   >
-                    {currentInstruction()}
+                    {currentRef.current.index < 0
+                      ? `Choose a sorting algorithm and click 'Play' to see it in action.`
+                      : currentRef.current.active.detail}
                   </p>
                 </div>
-                <form
-                  onSubmit={handleInputChange}
-                  className={`${
-                    animationStatus ? "disabled" : "not-disabled"
-                  } flex flex-col space-y-3`}
-                >
-                  <div className="flex items-center space-x-2">
-                    <button
-                      onClick={() => setTestCases("best")}
-                      className="transition-all duration-150 hover:text-white text-[#CCCCCC] text-sm border-2 active:bg-[#064663] hover:bg-[#064663] border-[#063e59] py-1 px-2 rounded"
-                    >
-                      Best case
-                    </button>
-                    <button
-                      onClick={() => setTestCases("worst")}
-                      className="transition-all duration-150 hover:text-white text-[#CCCCCC] text-sm border-2 active:bg-[#064663] hover:bg-[#064663] border-[#063e59] py-1 px-2 rounded"
-                    >
-                      Worst case
-                    </button>
-                  </div>
-                  <input
-                    ref={inputRef}
-                    className={`${
-                      error ? "border-t-2 border-r-red-500" : ""
-                    } placeholder:text-[#CCCCCC] bg-[#04293A] transition-all duration-150  border-2 border-[#062743] text-[15px] rounded-sm w-[300px] py-2 px-3 outline-none`}
-                    placeholder="Enter custom case"
-                  ></input>
-                </form>
+
+                <TestCases
+                  selectedAlgo={selectedSearch}
+                  {...{ setMetrics, setElements }}
+                />
               </div>
 
               <AlgorithmDetail selectedAlgo={selectedSearch} />

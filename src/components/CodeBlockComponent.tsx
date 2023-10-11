@@ -59,7 +59,9 @@ function CodeBlock({ selectedAlgo }: codeProps) {
             }}
           >
             <HiOutlineClipboardCopy size={17} color="#E0E0E0" />
-            <p className="text-[13px] font-medium text-[#E0E0E0]">Copy code</p>
+            <p className="text-[13px] xl:block hidden font-medium text-[#E0E0E0]">
+              Copy code
+            </p>
           </div>
         )}
       </div>

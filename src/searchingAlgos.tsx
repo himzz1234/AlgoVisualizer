@@ -1,11 +1,11 @@
 type Steps = {
   type: string;
   detail?: string;
-  position?: {};
+  position?: object;
 };
 
 // Color configuration for different elements
-export const colorConfig: {} = {
+export const colorConfig: any = {
   i_comp: "#3498db",
   i_match: "green",
   low_comp: "red",

@@ -21,6 +21,9 @@ module.exports = {
         controls: "#007BFF",
         modalBackground: "rgba(0, 0, 0, 0.8)",
       },
+      fontFamily: {
+        body: ["Inter", "sans-serif"],
+      },
       height: {
         calc: "calc(100vh - 80px)",
       },

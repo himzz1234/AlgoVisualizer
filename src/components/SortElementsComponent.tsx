@@ -144,9 +144,7 @@ export default function Elements({
                   index
                 )} rounded-md flex items-center justify-center w-[60px] md:w-[74px] h-[74px] transition-all duration-150`}
               >
-                <p className={`${inconsolata.className} text-[18px]`}>
-                  {element}
-                </p>
+                <p className={`font-['Inconsolata'] text-[18px]`}>{element}</p>
               </div>
               {currentRef.current.active.position && (
                 <p className="w-full text-center absolute left-1/2 -translate-x-1/2 text-[12.5px] md:text-[13.5px] top-[75px]">

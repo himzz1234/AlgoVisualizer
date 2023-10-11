@@ -11,10 +11,6 @@ function Loading() {
         alt="loading"
         priority
       />
-
-      {/* <div className="flex absolute bottom-5 left-1/2 -translate-x-1/2 items-center space-x-1 text-[14px]">
-        <p>Made with ❤️ by Himanshu</p>
-      </div> */}
     </div>
   );
 }

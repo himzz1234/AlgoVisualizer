@@ -6,8 +6,8 @@ interface DetailProps {
 
 function AlgorithmDetail({ selectedAlgo }: DetailProps) {
   return (
-    <div className="mt-6 flex flex-col lg:flex-row space-y-5 lg:space-y-0 lg:space-x-5 border-t-2 border-[#063e59] py-6">
-      <div className="lg:border-r-2 lg:border-r-[#063e59] pr-5">
+    <div className="mt-6 grid lg:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 gap-5 px-2 border-t-2 border-[#063e59] py-6">
+      <div className="md:border-r-2 md:border-r-[#063e59] pr-5">
         <h4 className="font-medium uppercase text-[16px] text-[#ecb364]">
           Time Complexity
         </h4>
