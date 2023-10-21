@@ -1,12 +1,7 @@
 "use client";
 
 import { createContext, useState, useRef, ReactNode } from "react";
-
-type Steps = {
-  type: string;
-  detail?: string;
-  position?: {};
-};
+import { Steps } from "@/types/types";
 
 interface Props {
   children?: ReactNode; // optional

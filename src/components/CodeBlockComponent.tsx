@@ -6,14 +6,21 @@ import { languageOptions } from "@/util/data";
 import Select from "react-select";
 import { codeblockstyles } from "@/util/dropdown-styles";
 import { MdDone } from "react-icons/md";
+import { AlgoMetadata } from "@/types/types";
 
 type codeProps = {
-  selectedAlgo: any;
+  selectedAlgo: AlgoMetadata;
 };
+
+enum languageOption {
+  pycode = "pycode",
+  ccode = "ccode",
+  jscode = "jscode",
+}
 
 function CodeBlock({ selectedAlgo }: codeProps) {
   const [copied, setCopied] = useState(false);
-  const [selectedLang, setSelectedLang] = useState("jscode");
+  const [selectedLang, setSelectedLang] = useState(languageOption.jscode);
 
   const language = () => {
     if (selectedLang == "jscode") {

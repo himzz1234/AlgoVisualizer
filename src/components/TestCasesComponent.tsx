@@ -1,19 +1,20 @@
 import React, { useRef, useContext } from "react";
 import { AnimationContext } from "@/context/AnimationContext";
 import { AlgoContext } from "@/context/AlgoContext";
+import { AlgoMetadata, AlgoMetrics } from "@/types/types";
 
 interface TestCasesProps {
-  selectedAlgo: any;
-  setMetrics: Function;
-  setElements: Function;
+  selectedAlgo: AlgoMetadata;
+  setMetrics: (metrics: AlgoMetrics) => void;
+  setElements: (elements: number[]) => void;
 }
 
 function TestCases({ selectedAlgo, setMetrics, setElements }: TestCasesProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { currentRef, animationStatus } = useContext(AnimationContext)!;
   const { changeConfig } = useContext(AlgoContext)!;
+  const { currentRef, animationStatus } = useContext(AnimationContext)!;
 
-  const setTestCases = (type: string) => {
+  const setTestCases = (type: string): void => {
     if (type == "best") {
       setElements(selectedAlgo.test_cases.best.elements);
       changeConfig({
@@ -35,7 +36,10 @@ function TestCases({ selectedAlgo, setMetrics, setElements }: TestCasesProps) {
     setMetrics({ timer: 0, count: 0 });
 
     if (inputRef.current?.value) {
-      const regex = /^\[\s*-?\d+(?:\s*,\s*-?\d+)*\s*\]$/;
+      const regex =
+        window.innerWidth >= 768
+          ? /^\[\s*-?\d+(?:\s*,\s*-?\d+)*\s*\]$/
+          : /^\[\s*\d+(?:\s*,\s*\d+)*\s*\]$/;
 
       const value: string = inputRef.current.value;
       if (regex.test(value)) {
@@ -49,6 +53,7 @@ function TestCases({ selectedAlgo, setMetrics, setElements }: TestCasesProps) {
       }
     }
   };
+
   return (
     <div
       className={`${

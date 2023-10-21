@@ -28,8 +28,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/sortingAlgos.tsx",
-    "src/hooks/useAnimation.js"
+    "src/hooks/useAnimation.js",
+    "src/types/types.ts"
   ],
   "exclude": ["node_modules"]
 }

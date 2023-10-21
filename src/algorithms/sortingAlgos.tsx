@@ -1,8 +1,4 @@
-type Steps = {
-  type: string;
-  detail: string;
-  position?: object;
-};
+import { Steps } from "@/types/types";
 
 // Bubble Sort
 export function BubbleSort(array: Array<Number>) {

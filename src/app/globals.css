@@ -18,7 +18,7 @@
   }
 
   .control-btn {
-    @apply flex btnclick items-center space-x-2 font-medium bg-[#04293a] px-4 py-2 rounded-sm;
+    @apply flex btnclick items-center space-x-2 font-medium bg-[#04293a] px-4 py-2 md:rounded-sm;
   }
 }
 

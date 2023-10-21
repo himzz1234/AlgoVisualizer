@@ -1,7 +1,8 @@
 import React from "react";
+import { AlgoMetadata } from "@/types/types";
 
 interface DetailProps {
-  selectedAlgo: any;
+  selectedAlgo: AlgoMetadata;
 }
 
 function AlgorithmDetail({ selectedAlgo }: DetailProps) {

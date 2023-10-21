@@ -16,8 +16,8 @@ interface Props {
 interface ContextValues {
   state: state;
   isLoading: boolean;
-  setIsLoading: Function;
   changeConfig: (state: {}) => void;
+  setIsLoading: (status: boolean) => void;
 }
 
 export const AlgoContext = createContext<ContextValues | null>(null);

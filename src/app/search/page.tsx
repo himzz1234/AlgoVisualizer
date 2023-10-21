@@ -18,11 +18,11 @@ import TestCases from "@/components/TestCasesComponent";
 function Search() {
   const currentTargetRef = useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [target, setTarget] = useState<number>(9);
   const { state, isLoading, setIsLoading, changeConfig } =
     useContext(AlgoContext)!;
-  const { currentRef, setAnimationStatus } = useContext(AnimationContext)!;
-  const [target, setTarget] = useState<any>(9);
   const [metrics, setMetrics] = useState({ count: 0, timer: 0 });
+  const { currentRef, setAnimationStatus } = useContext(AnimationContext)!;
   const [elements, setElements] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
   const selectedSearch: any = searchOptions.find(
@@ -93,7 +93,7 @@ function Search() {
                     }}
                   />
 
-                  <div className="bg-[#04293A] rounded-md w-20 py-2 px-3 outline-none text-sm">
+                  <div className="bg-[#04293A] rounded-sm sm:rounded-md w-20 py-2 px-3 outline-none text-sm">
                     {metrics.timer} sec
                   </div>
                   <div
@@ -104,7 +104,7 @@ function Search() {
                       currentRef.current.index > -1
                         ? "disabled"
                         : "not-disabled"
-                    } bg-[#04293A] flex items-center rounded-md w-20 h-9 outline-none text-sm`}
+                    } bg-[#04293A] flex items-center rounded-sm sm:rounded-md w-20 h-9 outline-none text-sm`}
                   >
                     <input
                       defaultValue={target}
@@ -113,9 +113,11 @@ function Search() {
                     />
                     <div
                       onClick={() => {
-                        setTarget(currentTargetRef.current?.value);
+                        if (currentTargetRef.current) {
+                          setTarget(Number(currentTargetRef.current.value));
+                        }
                       }}
-                      className="cursor-pointer btnclick bg-[#064663] h-full px-2 rounded-r-md flex items-center justify-center"
+                      className="cursor-pointer btnclick bg-[#064663] h-full px-2 rounded-r-sm sm:rounded-r-md flex items-center justify-center"
                     >
                       <BiSolidPencil size={14} />
                     </div>
@@ -131,8 +133,8 @@ function Search() {
                 />
               </div>
 
-              <div className="flex mt-8 space-y-5 md:space-y-0 md:space-x-5 md:flex-row flex-col">
-                <div className="border-2 border-[#063e59] bg-transparent w-[400px] h-[84px] py-1 px-3 rounded-md">
+              <div className="flex mt-12 sm:mt-8 space-y-5 sm:space-y-0 sm:space-x-5 sm:flex-row flex-col">
+                <div className="border-2 border-[#063e59] bg-transparent w-full sm:w-[400px] h-[84px] py-1 px-3 rounded-md">
                   <p
                     className={`leading-[27.5px] text-[15.5px] ${
                       currentRef.current.index < 0

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { useContext } from "react";
-import { GoChevronRight } from "react-icons/go";
 import { TiSortNumericallyOutline } from "react-icons/ti";
 import { BiSearchAlt } from "react-icons/bi";
 import { PiGraphDuotone, PiTreeStructure } from "react-icons/pi";
@@ -57,10 +56,7 @@ function AlgorithmCard({ name, disabled, color }: CardProps) {
         <Link
           href={`/${name.toLowerCase()}`}
           className="text-[#ecb364] flex items-center"
-        >
-          {/* <p>Find out more</p>
-          <GoChevronRight color="#ecb364" /> */}
-        </Link>
+        ></Link>
 
         <Icon size={55} color={color} />
       </div>

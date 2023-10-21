@@ -1,8 +1,4 @@
-type Steps = {
-  type: string;
-  detail?: string;
-  position?: object;
-};
+import { Steps } from "@/types/types";
 
 // Color configuration for different elements
 export const colorConfig: any = {

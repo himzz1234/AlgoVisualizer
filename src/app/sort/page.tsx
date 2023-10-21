@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useState, useRef } from "react";
+import { useContext, useEffect, useState } from "react";
 import { sortOptions } from "@/util/data";
 import { IoIosOptions } from "react-icons/io";
 import { AlgoContext } from "@/context/AlgoContext";
@@ -12,7 +12,6 @@ import { AnimationContext } from "@/context/AnimationContext";
 import AlgorithmDetail from "@/components/AlgorithmDetailComponent";
 import Confetti from "react-confetti";
 import Loading from "@/components/LoadingComponent";
-import { AiFillQuestionCircle } from "react-icons/ai";
 import TestCases from "@/components/TestCasesComponent";
 
 function Sort() {
@@ -22,7 +21,7 @@ function Sort() {
   const { animationStatus, currentRef, setAnimationStatus, steps } =
     useContext(AnimationContext)!;
   const [metrics, setMetrics] = useState({ count: 0, timer: 0 });
-  const [elements, setElements] = useState([7, -2, 4, 1, 6, 5, 0, -4, 2]);
+  const [elements, setElements] = useState([7, 2, 4, 1, 6, 5, 0, 4, 2]);
 
   const selectedSort: any = sortOptions.find(
     (option) => option.value === state.algorithmType
@@ -61,7 +60,7 @@ function Sort() {
           )}
 
           <div className="flex-1 flex lg:flex-row flex-col">
-            <div className="flex-1 pl-7 pr-4 py-4">
+            <div className="flex-1 pl-4 pr-4 lg:pl-7 lg:pr-4 py-4">
               <div className="space-y-2">
                 <div className="flex items-center space-x-4">
                   <h1 className="text-[20px] flex-1 text-[#ecb364] font-medium uppercase">
@@ -94,12 +93,12 @@ function Sort() {
                       setMetrics,
                     }}
                   />
-                  <div className="bg-[#04293A] rounded-md w-24 py-2 px-3 outline-none text-sm">
+                  <div className="bg-[#04293A] rounded-sm sm:rounded-md w-24 py-2 px-3 outline-none text-sm">
                     <p className="flex items-center">
                       {metrics.count} <span className="ml-2">swaps</span>
                     </p>
                   </div>
-                  <div className="bg-[#04293A] rounded-md w-20 py-2 px-3 outline-none text-sm">
+                  <div className="bg-[#04293A] rounded-sm sm:rounded-md w-20 py-2 px-3 outline-none text-sm">
                     {metrics.timer} sec
                   </div>
                 </div>
@@ -111,8 +110,8 @@ function Sort() {
                   }}
                 />
               </div>
-              <div className="flex mt-8 space-y-5 md:space-y-0 md:space-x-5 md:flex-row flex-col">
-                <div className="border-2 border-[#063e59] bg-transparent w-[400px] h-[84px] py-1 px-3 rounded-md">
+              <div className="flex mt-12 sm:mt-8 space-y-5 sm:space-y-0 sm:space-x-5 sm:flex-row flex-col">
+                <div className="border-2 border-[#063e59] bg-transparent w-full sm:w-[400px] h-[84px] py-1 px-3 rounded-md">
                   <p
                     className={`leading-[27.5px] text-[15.5px] ${
                       currentRef.current.index < 0

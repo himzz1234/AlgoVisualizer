@@ -8,18 +8,17 @@ import {
   SelectionSort,
   HeapSort,
   ShellSort,
-} from "@/sortingAlgos";
-import { Inconsolata } from "next/font/google";
+} from "@/algorithms/sortingAlgos";
 import { AlgoContext } from "@/context/AlgoContext";
 import { AnimationContext } from "@/context/AnimationContext";
+import { AlgoMetrics, Steps } from "@/types/types";
 
 interface ElementsProps {
   elements: number[];
-  setMetrics: Function;
-  setElements: Function;
+  setElements: (updater: (prevElements: number[]) => number[]) => void;
+  setMetrics: (updater: (prevMetrics: AlgoMetrics) => AlgoMetrics) => void;
 }
 
-const inconsolata = Inconsolata({ subsets: ["latin"] });
 export default function Elements({
   elements,
   setMetrics,
@@ -29,58 +28,55 @@ export default function Elements({
   const { state } = useContext(AlgoContext)!;
   const { steps, setSteps, animationStatus, setAnimationStatus, currentRef } =
     useContext(AnimationContext)!;
-  const blockRefs = useRef(Array(elements.length).fill(null));
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const getStyleBasedOnType = (index: number): string => {
-    if (currentRef.current.active.type === "sorting-finish") {
-      return "bg-green-700 scale-110 transtion-all duration-150 ease-in-out";
+    const activePosition = currentRef.current.active.position;
+    const activeAnimationType = currentRef.current.active.type;
+
+    if (activeAnimationType === "sorting-finish") {
+      return "bg-green-700 sm:scale-110 transtion-all duration-150 ease-in-out";
     }
 
-    if (
-      currentRef.current.active.position &&
-      Object.values(currentRef.current.active.position).includes(index)
-    ) {
-      if (currentRef.current.active.type === "comp")
-        return "bg-[#3498db] scale-110 transtion-all duration-150 ease-in-out";
+    if (activePosition && Object.values(activePosition).includes(index)) {
+      if (activeAnimationType === "comp")
+        return "bg-[#3498db] sm:scale-110 transtion-all duration-150 ease-in-out";
       else
-        return "bg-[#c0392b] scale-110 transtion-all duration-150 ease-in-out";
+        return "bg-[#c0392b] sm:scale-110 transtion-all duration-150 ease-in-out";
     }
 
     return "bg-[#064663] scale-100";
   };
 
-  useEffect(() => {
-    const selectedSort = state.algorithmType;
+  const computeHeights = (val: number): string => {
+    if (containerRef.current) {
+      const height =
+        window.innerWidth >= 640
+          ? 75
+          : (val / Math.max(...elements)) *
+            containerRef.current.getBoundingClientRect().height;
 
-    let arr: any[] = [];
-    switch (selectedSort) {
-      case "BubbleSort": {
-        arr = BubbleSort([...elements]);
-        break;
-      }
-      case "QuickSort": {
-        arr = QuickSort([...elements]);
-        break;
-      }
-      case "InsertionSort": {
-        arr = InsertionSort([...elements]);
-        break;
-      }
-      case "SelectionSort": {
-        arr = SelectionSort([...elements]);
-        break;
-      }
-      case "HeapSort": {
-        arr = HeapSort([...elements]);
-        break;
-      }
-      case "ShellSort": {
-        arr = ShellSort([...elements]);
-        break;
-      }
+      return `${height + 1}px`;
     }
 
-    setSteps([...arr]);
+    return "";
+  };
+
+  useEffect(() => {
+    const selectedSort: any = state.algorithmType;
+    const sortingAlgorithms: any = {
+      BubbleSort: BubbleSort,
+      QuickSort: QuickSort,
+      InsertionSort: InsertionSort,
+      SelectionSort: SelectionSort,
+      HeapSort: HeapSort,
+      ShellSort: ShellSort,
+    };
+
+    if (sortingAlgorithms[selectedSort]) {
+      const arr: Steps[] = sortingAlgorithms[selectedSort]([...elements]);
+      setSteps(arr);
+    }
   }, [state.algorithmType, state.algorithmElements]);
 
   useEffect(() => {
@@ -96,8 +92,6 @@ export default function Elements({
       currentRef.current.active = obj;
       if (obj.position) {
         var [i, j]: number[] = Object.values(obj.position);
-        var a = blockRefs.current[i];
-        var b = blockRefs.current[j];
       }
 
       setElements((prevElements: number[]) => {
@@ -130,24 +124,23 @@ export default function Elements({
   }, [state.algorithmSpeed, animationStatus]);
 
   return (
-    <div className="space-y-10">
-      <div className="flex items-center mt-5 flex-wrap gap-y-8 lg:gap-y-5 gap-x-2 lg:gap-x-5">
+    <div ref={containerRef} className="space-y-10 h-[240px] sm:h-auto">
+      <div className="flex md:items-center items-end justify-center sm:justify-start mt-10 md:mt-5 flex-wrap gap-y-8 lg:gap-y-5 gap-x-2 xl:gap-x-3 2xl:gap-x-5">
         {elements.map((element: number, index: number) => {
           return (
-            <div
-              key={index}
-              ref={(e) => (blockRefs.current[index] = e)}
-              className="space-y-2 relative mb-5"
-            >
+            <div key={index} className="space-y-2 relative md:mb-5">
               <div
+                style={{ height: `${computeHeights(element)}` }}
                 className={`${getStyleBasedOnType(
                   index
-                )} rounded-md flex items-center justify-center w-[60px] md:w-[74px] h-[74px] transition-all duration-150`}
+                )} relative rounded-sm sm:rounded-md flex items-center justify-center w-[25px] sm:w-[53px] md:w-[67.5px] xl:w-[69.5px] 2xl:w-[72.5px]`}
               >
-                <p className={`font-['Inconsolata'] text-[18px]`}>{element}</p>
+                <p className="absolute top-full translate-y-1/3 sm:top-1/2 left-1/2 -translate-x-1/2 sm:-translate-y-1/2 font-['Inconsolata'] text-[16px] sm:text-[18px]">
+                  {element}
+                </p>
               </div>
               {currentRef.current.active.position && (
-                <p className="w-full text-center absolute left-1/2 -translate-x-1/2 text-[12.5px] md:text-[13.5px] top-[75px]">
+                <p className="hidden sm:block w-full text-center absolute left-1/2 -translate-x-1/2 text-[12.5px] md:text-[13.5px] top-[75px]">
                   {Object.values(currentRef.current.active.position).includes(
                     index
                   )

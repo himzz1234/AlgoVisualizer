@@ -4,11 +4,12 @@ import { algoOptions } from "@/util/data";
 import { LiaTimesSolid } from "react-icons/lia";
 import { AlgoContext } from "@/context/AlgoContext";
 import { AnimationContext } from "@/context/AnimationContext";
+import { AlgoMetrics } from "@/types/types";
 
 const inter = Inter({ subsets: ["latin"] });
 
 type ModalProps = {
-  setMetrics: Function;
+  setMetrics: (metrics: AlgoMetrics) => void;
   setIsOpen: (isOpen: boolean) => void;
   setElements: (elements: number[]) => void;
 };
@@ -34,7 +35,7 @@ function AlgorithmModal({ setIsOpen, setMetrics, setElements }: ModalProps) {
 
   return (
     <div
-      className={`${inter.className} fixed h-screen top-0 left-0 bg-modalBackground w-full z-40 flex items-center justify-center`}
+      className={`${inter.className} px-5 sm:px-0 fixed h-screen top-0 left-0 bg-modalBackground w-full z-40 flex items-center justify-center`}
     >
       <div className="w-[500px] bg-[#041c32] shadow-md rounded-md">
         <div className="flex items-center justify-between px-5 py-3 border-b-2 border-[#063e59]">

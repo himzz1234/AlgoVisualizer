@@ -5,11 +5,11 @@ function Loading() {
   return (
     <div className="flex-1 relative flex flex-col items-center justify-center">
       <Image
-        src="/images/algologo.png"
-        height={280}
-        width={280}
-        alt="loading"
         priority
+        width={280}
+        height={280}
+        alt="loading"
+        src="/images/algologo.png"
       />
     </div>
   );

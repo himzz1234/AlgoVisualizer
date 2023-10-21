@@ -12,10 +12,11 @@ import { MdRestartAlt } from "react-icons/md";
 import { styles } from "@/util/dropdown-styles";
 import { AlgoContext } from "@/context/AlgoContext";
 import { AnimationContext } from "@/context/AnimationContext";
+import { AlgoMetrics } from "@/types/types";
 
 type controlProps = {
-  setElements: Function;
-  setMetrics: Function;
+  setElements: (updater: (prevElements: number[]) => number[]) => void;
+  setMetrics: (updater: (prevMetrics: AlgoMetrics) => AlgoMetrics) => void;
 };
 
 function ControlPanel({ setElements, setMetrics }: controlProps) {
@@ -32,13 +33,16 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
   };
 
   const resetElements = (): void => {
-    setElements(state.algorithmElements);
+    setElements((prev: number[]) => [...state.algorithmElements]);
     currentRef.current.index = -1;
 
     currentRef.current.active = [];
     setAnimationStatus(false);
 
-    setMetrics({ timer: 0, count: 0 });
+    setMetrics((prev: AlgoMetrics) => ({
+      count: 0,
+      timer: 0,
+    }));
   };
 
   const generateRandomElements = (): void => {
@@ -56,7 +60,7 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
         });
 
       state.algorithmElements = [...newElements];
-      setElements([...newElements]);
+      setElements((prev: number[]) => [...newElements]);
     }
   };
 
@@ -67,8 +71,9 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
     if (obj.position) {
       var [i, j]: number[] = Object.values(obj.position);
     }
+
     currentRef.current.active = obj;
-    setMetrics((prev: { count: number; timer: number }) => ({
+    setMetrics((prev: AlgoMetrics) => ({
       ...prev,
       timer: prev.timer + 1,
     }));
@@ -97,13 +102,13 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
   const previousStep = (): void => {
     currentRef.current.index -= 1;
 
-    setMetrics((prev: { count: number; timer: number }) => ({
+    setMetrics((prev: AlgoMetrics) => ({
       ...prev,
       timer: prev.timer - 1,
     }));
 
     if (currentRef.current.index < 0) {
-      setElements(state.algorithmElements);
+      setElements((prev: number[]) => [...state.algorithmElements]);
 
       currentRef.current.active = [];
       return;
@@ -209,7 +214,7 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
 
       <Select
         styles={styles}
-        className="w-[100px] lg:w-[150px]"
+        className="w-[100px] lg:w-[150px] rounded-sm sm:rounded-md"
         options={speedOptions}
         instanceId="select-speed"
         defaultValue={speedOptions[3]}
