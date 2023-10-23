@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { HiOutlineClipboardCopy } from "react-icons/hi";
-import coldWinterTheme from "@/util/cold-winter.js";
+import coldWinterTheme from "@/theme/cold-winter.js";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { languageOptions } from "@/util/data";
-import Select from "react-select";
+import Select, { ActionMeta } from "react-select";
 import { codeblockstyles } from "@/util/dropdown-styles";
 import { MdDone } from "react-icons/md";
 import { AlgoMetadata } from "@/types/types";
@@ -12,15 +12,11 @@ type codeProps = {
   selectedAlgo: AlgoMetadata;
 };
 
-enum languageOption {
-  pycode = "pycode",
-  ccode = "ccode",
-  jscode = "jscode",
-}
+type Option = { label: string; value: string };
 
 function CodeBlock({ selectedAlgo }: codeProps) {
   const [copied, setCopied] = useState(false);
-  const [selectedLang, setSelectedLang] = useState(languageOption.jscode);
+  const [selectedLang, setSelectedLang] = useState<string>("jscode");
 
   const language = () => {
     if (selectedLang == "jscode") {
@@ -31,7 +27,7 @@ function CodeBlock({ selectedAlgo }: codeProps) {
   };
 
   useEffect(() => {
-    let timeout: any;
+    let timeout: NodeJS.Timeout;
     if (copied) {
       timeout = setTimeout(() => {
         setCopied(false);
@@ -50,7 +46,9 @@ function CodeBlock({ selectedAlgo }: codeProps) {
           options={languageOptions}
           instanceId="select-speed"
           defaultValue={languageOptions[0]}
-          onChange={(e: any) => setSelectedLang(e?.value)}
+          onChange={(e: Option | null, actionMeta: ActionMeta<Option>) => {
+            if (e?.value) setSelectedLang(e?.value);
+          }}
         />
         {copied ? (
           <div className="flex items-center space-x-1">
@@ -62,7 +60,14 @@ function CodeBlock({ selectedAlgo }: codeProps) {
             className="cursor-pointer btnclick flex items-center space-x-1"
             onClick={() => {
               setCopied(true);
-              navigator.clipboard.writeText(selectedAlgo[selectedLang]);
+              const selectedLangValue =
+                selectedAlgo[selectedLang as keyof AlgoMetadata];
+
+              if (typeof selectedLangValue === "string") {
+                navigator.clipboard.writeText(
+                  selectedAlgo[selectedLang as keyof AlgoMetadata] as string
+                );
+              }
             }}
           >
             <HiOutlineClipboardCopy size={17} color="#E0E0E0" />
@@ -78,7 +83,7 @@ function CodeBlock({ selectedAlgo }: codeProps) {
           style={coldWinterTheme}
           showLineNumbers={false}
         >
-          {selectedAlgo[selectedLang]}
+          {selectedAlgo[selectedLang as keyof AlgoMetadata] as string}
         </SyntaxHighlighter>
       </div>
     </div>

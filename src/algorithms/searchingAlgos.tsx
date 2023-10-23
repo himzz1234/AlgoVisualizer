@@ -1,7 +1,11 @@
 import { Steps } from "@/types/types";
 
+interface colorConfiguration {
+  [key: string]: string;
+}
+
 // Color configuration for different elements
-export const colorConfig: any = {
+export const colorConfig: colorConfiguration = {
   i_comp: "#3498db",
   i_match: "green",
   low_comp: "red",

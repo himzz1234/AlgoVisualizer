@@ -1,4 +1,5 @@
-export const algoOptions: any = [
+import { AlgorithmOption } from "@/types/types";
+export const algoOptions: AlgorithmOption[] = [
   {
     category: "Sort",
     icon: "TiSortNumericallyOutline",
@@ -197,6 +198,8 @@ export const searchOptions = [
       "function linearSearch(arr, target) {\n\tfor (let i = 0; i < arr.length; i++) {\n\t\tif (arr[i] === target) return i;\n\t}\n\treturn -1;\n}",
     method: "Sequential search method",
     stable: "Not Applicable",
+    data: [0, 0.001, 0.0015, 0.011, 0.0263, 0.2104, 0.4524],
+
     test_cases: {
       best: {
         target: 5,
@@ -224,6 +227,7 @@ export const searchOptions = [
       "function binarySearch(arr, target) {\n\tlet low = 0;\n\tlet high = arr.length - 1;\n\twhile (low <= high) {\n\t\tconst mid = Math.floor((low + high) / 2);\n\t\tif (arr[mid] === target) return mid;\n\t\tif (arr[mid] < target) low = mid + 1;\n\t\telse high = mid - 1;\n\t}\n\treturn -1;\n}",
     method: "Divide and Conquer",
     stable: "Not Applicable",
+    data: [0, 0.001, 0.0015, 0.011, 0.0263, 0.2104, 0.4524],
     test_cases: {
       best: {
         target: 5,
@@ -237,7 +241,7 @@ export const searchOptions = [
   },
 ];
 
-export const speedOptions = [
+export const speedOptions: { value: number; label: string }[] = [
   {
     value: 0.25,
     label: "0.25x",

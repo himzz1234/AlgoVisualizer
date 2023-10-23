@@ -14,6 +14,7 @@ import Confetti from "react-confetti";
 import { BiSolidPencil } from "react-icons/bi";
 import Loading from "@/components/LoadingComponent";
 import TestCases from "@/components/TestCasesComponent";
+import { AlgoMetadata } from "@/types/types";
 
 function Search() {
   const currentTargetRef = useRef<HTMLInputElement>(null);
@@ -25,13 +26,13 @@ function Search() {
   const { currentRef, setAnimationStatus } = useContext(AnimationContext)!;
   const [elements, setElements] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
-  const selectedSearch: any = searchOptions.find(
-    (option) => option.value === state.algorithmType
-  );
+  const selectedSearch: AlgoMetadata =
+    searchOptions.find((option) => option.value === state.algorithmType) ||
+    searchOptions[0];
 
   useEffect(() => {
-    currentRef.current = { active: [], index: -1 };
     setAnimationStatus(false);
+    currentRef.current = { active: {}, index: -1 };
 
     const data = {
       algorithm: "Search",
@@ -51,7 +52,7 @@ function Search() {
         <Loading />
       ) : (
         <>
-          {currentRef.current.active.type == "match" && (
+          {currentRef.current!.active.type == "match" && (
             <Confetti
               recycle={false}
               tweenDuration={2000}
@@ -101,7 +102,7 @@ function Search() {
                     data-tooltip-content="Enter the element to search for in the array."
                     data-tooltip-delay-show={1000}
                     className={`${
-                      currentRef.current.index > -1
+                      currentRef.current!.index > -1
                         ? "disabled"
                         : "not-disabled"
                     } bg-[#04293A] flex items-center rounded-sm sm:rounded-md w-20 h-9 outline-none text-sm`}
@@ -137,14 +138,14 @@ function Search() {
                 <div className="border-2 border-[#063e59] bg-transparent w-full sm:w-[400px] h-[84px] py-1 px-3 rounded-md">
                   <p
                     className={`leading-[27.5px] text-[15.5px] ${
-                      currentRef.current.index < 0
+                      currentRef.current!.index < 0
                         ? "text-[#CCCCCC]"
                         : "text-white"
                     }`}
                   >
-                    {currentRef.current.index < 0
+                    {currentRef.current!.index < 0
                       ? `Choose a sorting algorithm and click 'Play' to see it in action.`
-                      : currentRef.current.active.detail}
+                      : currentRef.current!.active.detail}
                   </p>
                 </div>
 

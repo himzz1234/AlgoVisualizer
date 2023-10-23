@@ -1,5 +1,17 @@
-export const styles: any = {
-  control: (baseStyles: any, state: any) => ({
+import { StylesConfig, GroupBase } from "react-select";
+
+type languageOption = {
+  label: string;
+  value: string;
+};
+
+type speedOption = {
+  label: string;
+  value: number;
+};
+
+export const speedStyles: StylesConfig<speedOption, false> = {
+  control: (baseStyles, state) => ({
     ...baseStyles,
     "&:hover": {
       borderColor: "transparent",
@@ -8,11 +20,11 @@ export const styles: any = {
     backgroundColor: "#04293a",
     color: "white",
   }),
-  singleValue: (baseStyles: any, state: any) => ({
+  singleValue: (baseStyles) => ({
     ...baseStyles,
     color: "white",
   }),
-  option: (baseStyles: any, state: any) => ({
+  option: (baseStyles, state) => ({
     ...baseStyles,
     backgroundColor: state.isFocused ? "#064663" : "transparent",
     color: state.isSelected ? "white" : "white",
@@ -20,22 +32,21 @@ export const styles: any = {
       backgroundColor: "#064663",
     },
   }),
-  menu: (baseStyles: any, state: any) => ({
+  menu: (baseStyles) => ({
     ...baseStyles,
     backgroundColor: "#04293a",
   }),
-  dropdownIndicator: (baseStyles: any, state: any) => ({
+  dropdownIndicator: (baseStyles) => ({
     ...baseStyles,
     color: "white",
     "&:hover": {
       color: "white",
     },
   }),
-  indicatorSeparator: () => {},
 };
 
-export const codeblockstyles: any = {
-  control: (baseStyles: any, state: any) => ({
+export const codeblockstyles: StylesConfig<languageOption, false> = {
+  control: (baseStyles, state) => ({
     ...baseStyles,
     "&:hover": {
       borderColor: "transparent",
@@ -45,11 +56,11 @@ export const codeblockstyles: any = {
     fontSize: "14px",
     color: "white",
   }),
-  singleValue: (baseStyles: any, state: any) => ({
+  singleValue: (baseStyles) => ({
     ...baseStyles,
     color: "white",
   }),
-  option: (baseStyles: any, state: any) => ({
+  option: (baseStyles, state) => ({
     ...baseStyles,
     backgroundColor: state.isFocused ? "#064663" : "transparent",
     color: state.isSelected ? "white" : "white",
@@ -58,16 +69,15 @@ export const codeblockstyles: any = {
     },
     fontSize: "14px",
   }),
-  menu: (baseStyles: any, state: any) => ({
+  menu: (baseStyles) => ({
     ...baseStyles,
     backgroundColor: "#04293a",
   }),
-  dropdownIndicator: (baseStyles: any, state: any) => ({
+  dropdownIndicator: (baseStyles) => ({
     ...baseStyles,
     color: "white",
     "&:hover": {
       color: "white",
     },
   }),
-  indicatorSeparator: () => {},
 };

@@ -4,7 +4,7 @@ import { algoOptions } from "@/util/data";
 import { LiaTimesSolid } from "react-icons/lia";
 import { AlgoContext } from "@/context/AlgoContext";
 import { AnimationContext } from "@/context/AnimationContext";
-import { AlgoMetrics } from "@/types/types";
+import { AlgoMetrics, AlgorithmOption } from "@/types/types";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,15 +18,16 @@ function AlgorithmModal({ setIsOpen, setMetrics, setElements }: ModalProps) {
   const { currentRef, setAnimationStatus } = useContext(AnimationContext)!;
   const { state, changeConfig } = useContext(AlgoContext)!;
 
-  const category = algoOptions.find(
-    (option: any) => option.category == state.algorithm
-  );
+  const algoCategory: AlgorithmOption =
+    algoOptions.find(
+      (option: AlgorithmOption) => option.category == state.algorithm
+    ) || algoOptions[0];
 
   const switchAlgorithm = (item: string) => {
     setElements(state.algorithmElements);
-    currentRef.current.index = -1;
+    currentRef.current!.index = -1;
 
-    currentRef.current.active = [];
+    currentRef.current!.active = {};
     setAnimationStatus(false);
 
     setMetrics({ timer: 0, count: 0 });
@@ -49,7 +50,7 @@ function AlgorithmModal({ setIsOpen, setMetrics, setElements }: ModalProps) {
           </div>
         </div>
         <ul>
-          {Object.keys(category.algorithms).map((item, index) => (
+          {Object.keys(algoCategory.algorithms).map((item, index) => (
             <li
               key={index}
               onClick={() => switchAlgorithm(item)}
@@ -57,7 +58,7 @@ function AlgorithmModal({ setIsOpen, setMetrics, setElements }: ModalProps) {
                 state.algorithmType == item && "bg-[#064663]"
               }`}
             >
-              {category.algorithms[item]}
+              {algoCategory.algorithms[item]}
             </li>
           ))}
         </ul>

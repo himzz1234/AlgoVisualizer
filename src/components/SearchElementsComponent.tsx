@@ -23,7 +23,7 @@ export default function Elements({
   setMetrics,
   setElements,
 }: ElementProps) {
-  const timeoutRef = useRef<any>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { state } = useContext(AlgoContext)!;
   const { steps, setSteps, animationStatus, setAnimationStatus, currentRef } =
     useContext(AnimationContext)!;
@@ -88,7 +88,7 @@ export default function Elements({
       }
 
       currentRef.current.index += 1;
-      const obj: any = steps[currentRef.current.index];
+      const obj: Steps = steps[currentRef.current.index];
       currentRef.current.active = obj;
 
       setElements((prevElements: number[]) => {
@@ -115,17 +115,20 @@ export default function Elements({
 
     if (animationStatus) animate();
 
-    return () => clearTimeout(timeoutRef.current);
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
   }, [state.algorithmSpeed, animationStatus]);
 
   return (
     <div ref={containerRef} className="space-y-10 h-[240px] sm:h-auto">
       <div className="flex md:items-center items-end justify-center sm:justify-start mt-10 sm:mt-5 flex-wrap gap-y-8 lg:gap-y-5 gap-x-2 xl:gap-x-3 2xl:gap-x-5">
         {elements.map((element: number, index: number) => {
-          const currentElements: any = currentRef.current.active.position;
-          const animationType: string = currentRef.current.active.type;
+          const currentElements: { [key: string]: number } =
+            currentRef.current.active!.position;
+          const animationType: string = currentRef.current.active!.type;
 
-          const color: string =
+          const color: string | undefined =
             currentElements &&
             colorConfig[
               `${Object.keys(currentElements).find(

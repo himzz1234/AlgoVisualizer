@@ -32,7 +32,7 @@ function TestCases({ selectedAlgo, setMetrics, setElements }: TestCasesProps) {
     e.preventDefault();
     currentRef.current.index = -1;
 
-    currentRef.current.active = [];
+    currentRef.current.active = {};
     setMetrics({ timer: 0, count: 0 });
 
     if (inputRef.current?.value) {

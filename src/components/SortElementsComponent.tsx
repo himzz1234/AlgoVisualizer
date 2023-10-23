@@ -24,7 +24,7 @@ export default function Elements({
   setMetrics,
   setElements,
 }: ElementsProps) {
-  const timeoutRef = useRef<any>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { state } = useContext(AlgoContext)!;
   const { steps, setSteps, animationStatus, setAnimationStatus, currentRef } =
     useContext(AnimationContext)!;
@@ -63,8 +63,10 @@ export default function Elements({
   };
 
   useEffect(() => {
-    const selectedSort: any = state.algorithmType;
-    const sortingAlgorithms: any = {
+    const selectedSort: string = state.algorithmType;
+    const sortingAlgorithms: {
+      [key: string]: (elements: number[]) => Steps[];
+    } = {
       BubbleSort: BubbleSort,
       QuickSort: QuickSort,
       InsertionSort: InsertionSort,
@@ -87,7 +89,7 @@ export default function Elements({
       }
 
       currentRef.current.index += 1;
-      const obj: any = steps[currentRef.current.index];
+      const obj: Steps = steps[currentRef.current.index];
 
       currentRef.current.active = obj;
       if (obj.position) {
@@ -120,7 +122,9 @@ export default function Elements({
 
     if (animationStatus) animate();
 
-    return () => clearTimeout(timeoutRef.current);
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
   }, [state.algorithmSpeed, animationStatus]);
 
   return (
@@ -145,8 +149,10 @@ export default function Elements({
                     index
                   )
                     ? `( ${Object.keys(currentRef.current.active.position).find(
-                        (key) =>
-                          currentRef.current.active.position[key] === index
+                        (key) => {
+                          if (currentRef.current.active.position)
+                            currentRef.current.active.position[key] === index;
+                        }
                       )} )`
                     : ""}
                 </p>

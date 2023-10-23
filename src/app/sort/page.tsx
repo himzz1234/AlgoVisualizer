@@ -13,6 +13,7 @@ import AlgorithmDetail from "@/components/AlgorithmDetailComponent";
 import Confetti from "react-confetti";
 import Loading from "@/components/LoadingComponent";
 import TestCases from "@/components/TestCasesComponent";
+import { AlgoMetadata } from "@/types/types";
 
 function Sort() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -23,12 +24,12 @@ function Sort() {
   const [metrics, setMetrics] = useState({ count: 0, timer: 0 });
   const [elements, setElements] = useState([7, 2, 4, 1, 6, 5, 0, 4, 2]);
 
-  const selectedSort: any = sortOptions.find(
-    (option) => option.value === state.algorithmType
-  );
+  const selectedSort: AlgoMetadata =
+    sortOptions.find((option) => option.value === state.algorithmType) ||
+    sortOptions[0];
 
   useEffect(() => {
-    currentRef.current = { active: [], index: -1 };
+    currentRef.current = { active: {}, index: -1 };
     setAnimationStatus(false);
 
     const data = {
@@ -49,7 +50,7 @@ function Sort() {
         <Loading />
       ) : (
         <>
-          {currentRef.current.index == steps.length - 1 && (
+          {currentRef.current!.index == steps.length - 1 && (
             <Confetti
               recycle={false}
               tweenDuration={2000}
@@ -114,14 +115,14 @@ function Sort() {
                 <div className="border-2 border-[#063e59] bg-transparent w-full sm:w-[400px] h-[84px] py-1 px-3 rounded-md">
                   <p
                     className={`leading-[27.5px] text-[15.5px] ${
-                      currentRef.current.index < 0
+                      currentRef.current!.index < 0
                         ? "text-[#CCCCCC]"
                         : "text-white"
                     }`}
                   >
-                    {currentRef.current.index < 0
+                    {currentRef.current!.index < 0
                       ? `Choose a sorting algorithm and click 'Play' to see it in action.`
-                      : currentRef.current.active.detail}
+                      : currentRef.current!.active.detail}
                   </p>
                 </div>
 

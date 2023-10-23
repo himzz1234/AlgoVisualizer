@@ -1,5 +1,5 @@
 export type Steps = {
-  type: string;
+  type?: string;
   detail?: string;
   position?: object;
 };
@@ -34,6 +34,12 @@ export interface AlgoMetadata {
     };
   };
   value: string;
+}
+
+export interface AlgorithmOption {
+  category: string;
+  icon: string;
+  algorithms: { [key: string]: string };
 }
 
 export type AlgoMetrics = {

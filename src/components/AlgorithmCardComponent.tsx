@@ -12,10 +12,13 @@ type CardProps = {
   disabled: boolean;
 };
 
+type IconType = typeof TiSortNumericallyOutline;
+
 function AlgorithmCard({ name, disabled, color }: CardProps) {
   const { setIsLoading } = useContext(AlgoContext)!;
   const router = useRouter();
-  let Icon: any;
+  let Icon: IconType | null = TiSortNumericallyOutline;
+
   const getDesc = (name: string) => {
     switch (name) {
       case "Sort": {

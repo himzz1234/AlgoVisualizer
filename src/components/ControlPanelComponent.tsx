@@ -9,15 +9,18 @@ import Select from "react-select";
 import { BiShuffle } from "react-icons/bi";
 import { speedOptions } from "@/util/data";
 import { MdRestartAlt } from "react-icons/md";
-import { styles } from "@/util/dropdown-styles";
+import { speedStyles } from "@/util/dropdown-styles";
 import { AlgoContext } from "@/context/AlgoContext";
 import { AnimationContext } from "@/context/AnimationContext";
-import { AlgoMetrics } from "@/types/types";
+import { AlgoMetrics, Steps } from "@/types/types";
+import { ActionMeta } from "react-select";
 
 type controlProps = {
   setElements: (updater: (prevElements: number[]) => number[]) => void;
   setMetrics: (updater: (prevMetrics: AlgoMetrics) => AlgoMetrics) => void;
 };
+
+type Option = { label: string; value: number };
 
 function ControlPanel({ setElements, setMetrics }: controlProps) {
   const { state, changeConfig } = useContext(AlgoContext)!;
@@ -34,9 +37,9 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
 
   const resetElements = (): void => {
     setElements((prev: number[]) => [...state.algorithmElements]);
-    currentRef.current.index = -1;
+    currentRef.current!.index = -1;
 
-    currentRef.current.active = [];
+    currentRef.current!.active = {};
     setAnimationStatus(false);
 
     setMetrics((prev: AlgoMetrics) => ({
@@ -65,14 +68,14 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
   };
 
   const nextStep = (): void => {
-    currentRef.current.index += 1;
+    currentRef.current!!.index += 1;
 
-    const obj: any = steps[currentRef.current.index];
+    const obj: Steps = steps[currentRef.current!!.index];
     if (obj.position) {
       var [i, j]: number[] = Object.values(obj.position);
     }
 
-    currentRef.current.active = obj;
+    currentRef.current!!.active = obj;
     setMetrics((prev: AlgoMetrics) => ({
       ...prev,
       timer: prev.timer + 1,
@@ -93,30 +96,30 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
       return newElements;
     });
 
-    if (currentRef.current.index >= steps.length - 1) {
+    if (currentRef.current!.index >= steps.length - 1) {
       setElements((prevElements: number[]) => [...prevElements]);
       return;
     }
   };
 
   const previousStep = (): void => {
-    currentRef.current.index -= 1;
+    currentRef.current!.index -= 1;
 
     setMetrics((prev: AlgoMetrics) => ({
       ...prev,
       timer: prev.timer - 1,
     }));
 
-    if (currentRef.current.index < 0) {
+    if (currentRef.current!.index < 0) {
       setElements((prev: number[]) => [...state.algorithmElements]);
 
-      currentRef.current.active = [];
+      currentRef.current!.active = {};
       return;
     }
 
-    if (steps[currentRef.current.index + 1].type == "swap") {
+    if (steps[currentRef.current!.index + 1].type == "swap") {
       const [a, b]: number[] = Object.values(
-        steps[currentRef.current.index + 1].position!
+        steps[currentRef.current!.index + 1].position!
       );
 
       setElements((prevElements: number[]) => {
@@ -132,8 +135,8 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
       });
     }
 
-    const obj: any = steps[currentRef.current.index];
-    currentRef.current.active = obj;
+    const obj: Steps = steps[currentRef.current!.index];
+    currentRef.current!.active = obj;
   };
 
   return (
@@ -145,7 +148,7 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
           data-tooltip-delay-show={1000}
           onClick={previousStep}
           className={`${
-            animationStatus || currentRef.current.index < 0
+            animationStatus || currentRef.current!.index < 0
               ? "disabled"
               : "not-disabled"
           } control-btn`}
@@ -159,7 +162,7 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
           data-tooltip-delay-show={1000}
           onClick={!animationStatus ? startAnimation : stopAnimation}
           className={`${
-            currentRef.current.index == steps.length - 1
+            currentRef.current!.index == steps.length - 1
               ? "disabled"
               : "not-disabled"
           } control-btn w-[50px] lg:w-[120px]`}
@@ -180,7 +183,7 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
           data-tooltip-delay-show={1000}
           onClick={nextStep}
           className={`${
-            animationStatus || currentRef.current.index >= steps.length - 1
+            animationStatus || currentRef.current!.index >= steps.length - 1
               ? "disabled"
               : "not-disabled"
           } control-btn`}
@@ -194,7 +197,7 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
           data-tooltip-delay-show={1000}
           onClick={generateRandomElements}
           className={`${
-            currentRef.current.index > -1 || animationStatus
+            currentRef.current!.index > -1 || animationStatus
               ? "disabled"
               : "not-disabled"
           } control-btn`}
@@ -213,12 +216,14 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
       </div>
 
       <Select
-        styles={styles}
+        styles={speedStyles}
         className="w-[100px] lg:w-[150px] rounded-sm sm:rounded-md"
         options={speedOptions}
         instanceId="select-speed"
         defaultValue={speedOptions[3]}
-        onChange={(e) => changeConfig({ algorithmSpeed: e?.value })}
+        onChange={(e: Option | null, actionMeta: ActionMeta<Option>) =>
+          changeConfig({ algorithmSpeed: e?.value })
+        }
       />
     </div>
   );
