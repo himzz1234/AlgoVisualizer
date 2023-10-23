@@ -39,7 +39,7 @@ export default function Elements({
       }
 
       if (Object.values(activePosition).includes(index)) {
-        return "md:scale-110 transtion-all duration-150 ease-in-out";
+        return "sm:scale-110 transtion-all duration-150 ease-in-out";
       }
     }
 

@@ -35,14 +35,12 @@ export default function Elements({
     const activeAnimationType = currentRef.current.active.type;
 
     if (activeAnimationType === "sorting-finish") {
-      return "bg-green-700 sm:scale-110 transtion-all duration-150 ease-in-out";
+      return "bg-green-700 sm:scale-110";
     }
 
     if (activePosition && Object.values(activePosition).includes(index)) {
-      if (activeAnimationType === "comp")
-        return "bg-[#3498db] sm:scale-110 transtion-all duration-150 ease-in-out";
-      else
-        return "bg-[#c0392b] sm:scale-110 transtion-all duration-150 ease-in-out";
+      if (activeAnimationType === "comp") return "bg-[#3498db] sm:scale-110";
+      else return "bg-[#c0392b] sm:scale-110";
     }
 
     return "bg-[#064663] scale-100";
@@ -137,7 +135,7 @@ export default function Elements({
                 style={{ height: `${computeHeights(element)}` }}
                 className={`${getStyleBasedOnType(
                   index
-                )} relative rounded-sm sm:rounded-md flex items-center justify-center w-[25px] sm:w-[53px] md:w-[67.5px] xl:w-[69.5px] 2xl:w-[72.5px]`}
+                )} relative transition-all duration-150 ease-in-out rounded-sm sm:rounded-md flex items-center justify-center w-[25px] sm:w-[53px] md:w-[67.5px] xl:w-[69.5px] 2xl:w-[72.5px]`}
               >
                 <p className="absolute top-full translate-y-1/3 sm:top-1/2 left-1/2 -translate-x-1/2 sm:-translate-y-1/2 font-['Inconsolata'] text-[16px] sm:text-[18px]">
                   {element}
