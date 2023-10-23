@@ -56,11 +56,19 @@ function ControlPanel({ setElements, setMetrics }: controlProps) {
     } else {
       let newElements: number[] = [];
 
-      Array(length)
-        .fill("")
-        .forEach(() => {
-          newElements.push(Math.floor(Math.random() * 201) - 100);
-        });
+      if (window.innerWidth >= 640) {
+        Array(length)
+          .fill("")
+          .forEach(() => {
+            newElements.push(Math.floor(Math.random() * 201) - 100);
+          });
+      } else {
+        Array(length)
+          .fill("")
+          .forEach(() => {
+            newElements.push(Math.floor(Math.random() * 201));
+          });
+      }
 
       state.algorithmElements = [...newElements];
       setElements((prev: number[]) => [...newElements]);

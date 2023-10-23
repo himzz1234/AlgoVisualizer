@@ -37,7 +37,7 @@ function TestCases({ selectedAlgo, setMetrics, setElements }: TestCasesProps) {
 
     if (inputRef.current?.value) {
       const regex =
-        window.innerWidth >= 768
+        window.innerWidth >= 640
           ? /^\[\s*-?\d+(?:\s*,\s*-?\d+)*\s*\]$/
           : /^\[\s*\d+(?:\s*,\s*\d+)*\s*\]$/;
 
