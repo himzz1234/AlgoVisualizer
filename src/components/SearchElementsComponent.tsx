@@ -109,7 +109,7 @@ export default function Elements({
       });
 
       timeoutRef.current = setTimeout(() => {
-        animate;
+        animate();
       }, 500 / state.algorithmSpeed);
     };
 
@@ -125,10 +125,10 @@ export default function Elements({
       <div className="flex md:items-center items-end justify-center sm:justify-start mt-10 sm:mt-5 flex-wrap gap-y-8 lg:gap-y-5 gap-x-2 xl:gap-x-3 2xl:gap-x-5">
         {elements.map((element: number, index: number) => {
           const currentElements: { [key: string]: number } =
-            currentRef.current.active!.position;
-          const animationType: string = currentRef.current.active!.type;
+            currentRef.current.active.position;
+          const animationType: string = currentRef.current.active.type;
 
-          const color: string | undefined =
+          const color: string =
             currentElements &&
             colorConfig[
               `${Object.keys(currentElements).find(

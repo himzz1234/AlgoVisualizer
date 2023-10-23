@@ -149,10 +149,8 @@ export default function Elements({
                     index
                   )
                     ? `( ${Object.keys(currentRef.current.active.position).find(
-                        (key) => {
-                          if (currentRef.current.active.position)
-                            currentRef.current.active.position[key] === index;
-                        }
+                        (key) =>
+                          currentRef.current.active.position[key] === index
                       )} )`
                     : ""}
                 </p>

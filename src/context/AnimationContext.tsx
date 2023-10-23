@@ -19,11 +19,8 @@ export const AnimationContext = createContext<ContextType | null>(null); // Unio
 
 export default function AnimationProvider({ children }: Props) {
   const [steps, setSteps] = useState<Steps[]>([]);
+  const currentRef = useRef({ active: {}, index: -1 });
   const [animationStatus, setAnimationStatus] = useState<boolean>(false);
-  const currentRef = useRef<{ active: Steps | null; index: number }>({
-    active: null,
-    index: -1,
-  });
 
   return (
     <AnimationContext.Provider
