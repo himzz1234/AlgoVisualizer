@@ -9,9 +9,9 @@ import {
   HeapSort,
   ShellSort,
 } from "@/algorithms/sortingAlgos";
+import { AlgoMetrics, Steps } from "@/types/types";
 import { AlgoContext } from "@/context/AlgoContext";
 import { AnimationContext } from "@/context/AnimationContext";
-import { AlgoMetrics, Steps } from "@/types/types";
 
 interface ElementsProps {
   elements: number[];
@@ -135,7 +135,7 @@ export default function Elements({
                 style={{ height: `${computeHeights(element)}` }}
                 className={`${getStyleBasedOnType(
                   index
-                )} relative transition-all duration-150 ease-in-out rounded-sm sm:rounded-md flex items-center justify-center w-[25px] sm:w-[53px] md:w-[67.5px] xl:w-[69.5px] 2xl:w-[72.5px]`}
+                )} relative sm:transition-all sm:duration-150 sm:ease-in-out rounded-sm sm:rounded-md flex items-center justify-center w-[25px] sm:w-[53px] md:w-[67.5px] xl:w-[69.5px] 2xl:w-[72.5px]`}
               >
                 <p className="absolute top-full translate-y-1/3 sm:top-1/2 left-1/2 -translate-x-1/2 sm:-translate-y-1/2 font-['Inconsolata'] text-[16px] sm:text-[18px]">
                   {element}
