@@ -11,7 +11,7 @@ import AlgorithmModal from "@/app/components/AlgorithmModalComponent";
 import AlgorithmDetail from "@/app/components/AlgorithmDetailComponent";
 import { AnimationContext } from "@/app/context/AnimationContext";
 import Confetti from "react-confetti";
-import { BiSolidPencil } from "react-icons/bi";
+import { IoIosSearch } from "react-icons/io";
 import TestCases from "@/app/components/TestCasesComponent";
 import { AlgoMetadata } from "@/app/types/types";
 
@@ -107,7 +107,7 @@ function Search() {
                 data-tooltip-delay-show={1000}
                 className={`${
                   currentRef.current!.index > -1 ? "disabled" : "not-disabled"
-                } bg-[#04293A] flex items-center rounded-sm sm:rounded-md w-20 h-9 outline-none text-sm`}
+                } bg-[#04293A] flex items-center rounded-sm sm:rounded-md w-24 h-9 outline-none text-sm`}
               >
                 <input
                   defaultValue={target}
@@ -122,7 +122,7 @@ function Search() {
                   }}
                   className="cursor-pointer btnclick bg-[#064663] h-full px-2 rounded-r-sm sm:rounded-r-md flex items-center justify-center"
                 >
-                  <BiSolidPencil size={14} />
+                  <IoIosSearch size={16} />
                 </div>
               </div>
             </div>
