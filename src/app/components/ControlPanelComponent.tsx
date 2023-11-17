@@ -7,12 +7,12 @@ import {
 } from "react-icons/bs";
 import Select from "react-select";
 import { BiShuffle } from "react-icons/bi";
-import { speedOptions } from "@/util/data";
+import { speedOptions } from "@/app/utils/data";
 import { MdRestartAlt } from "react-icons/md";
-import { speedStyles } from "@/util/dropdown-styles";
-import { AlgoContext } from "@/context/AlgoContext";
-import { AnimationContext } from "@/context/AnimationContext";
-import { AlgoMetrics, Steps } from "@/types/types";
+import { speedStyles } from "@/app/utils/dropdown-styles";
+import { AlgoContext } from "@/app/context/AlgoContext";
+import { AnimationContext } from "@/app/context/AnimationContext";
+import { AlgoMetrics, Steps } from "@/app/types/types";
 import { ActionMeta } from "react-select";
 
 type controlProps = {

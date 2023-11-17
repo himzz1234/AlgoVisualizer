@@ -1,7 +1,5 @@
-import React from "react";
 import Image from "next/image";
-
-function Loading() {
+export default function Loading() {
   return (
     <div className="flex-1 relative flex flex-col items-center justify-center">
       <Image
@@ -14,5 +12,3 @@ function Loading() {
     </div>
   );
 }
-
-export default Loading;

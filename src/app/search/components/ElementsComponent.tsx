@@ -1,14 +1,18 @@
-"use client";
-
-import { AlgoContext } from "@/context/AlgoContext";
-import { AnimationContext } from "@/context/AnimationContext";
-import { useContext, useEffect, useRef } from "react";
+import { AlgoContext } from "@/app/context/AlgoContext";
+import { AnimationContext } from "@/app/context/AnimationContext";
+import {
+  useContext,
+  useEffect,
+  useRef,
+  useLayoutEffect,
+  useState,
+} from "react";
 import {
   colorConfig,
   LinearSearch,
   BinarySearch,
-} from "@/algorithms/searchingAlgos";
-import { AlgoMetrics, Steps } from "@/types/types";
+} from "@/app/search/utils/algorithms";
+import { AlgoMetrics, Steps } from "@/app/types/types";
 
 interface ElementProps {
   target: number;
@@ -28,6 +32,11 @@ export default function Elements({
   const { steps, setSteps, animationStatus, setAnimationStatus, currentRef } =
     useContext(AnimationContext)!;
   const containerRef = useRef<HTMLDivElement>(null);
+  const [windowWidth, setWindowWidth] = useState<number>(0);
+
+  useLayoutEffect(() => {
+    setWindowWidth(window.innerWidth);
+  }, []);
 
   const getStyleBasedOnType = (index: number): string => {
     const activePosition = currentRef.current.active.position;
@@ -49,7 +58,7 @@ export default function Elements({
   const computeHeights = (val: number): string => {
     if (containerRef.current) {
       const height =
-        window.innerWidth >= 640
+        windowWidth >= 640
           ? 75
           : (val / Math.max(...elements)) *
             containerRef.current.getBoundingClientRect().height;
@@ -57,7 +66,7 @@ export default function Elements({
       return `${height + 1}px`;
     }
 
-    return "";
+    return "76px";
   };
 
   useEffect(() => {

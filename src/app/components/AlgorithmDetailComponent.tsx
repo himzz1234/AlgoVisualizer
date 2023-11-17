@@ -1,5 +1,5 @@
 import React from "react";
-import { AlgoMetadata } from "@/types/types";
+import { AlgoMetadata } from "@/app/types/types";
 
 interface DetailProps {
   selectedAlgo: AlgoMetadata;

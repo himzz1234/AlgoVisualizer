@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { Inter } from "next/font/google";
-import { algoOptions } from "@/util/data";
+import { algoOptions } from "@/app/utils/data";
 import { LiaTimesSolid } from "react-icons/lia";
-import { AlgoContext } from "@/context/AlgoContext";
-import { AnimationContext } from "@/context/AnimationContext";
-import { AlgoMetrics, AlgorithmOption } from "@/types/types";
+import { AlgoContext } from "@/app/context/AlgoContext";
+import { AnimationContext } from "@/app/context/AnimationContext";
+import { AlgoMetrics, AlgorithmOption } from "@/app/types/types";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -1,4 +1,4 @@
-import { Steps } from "@/types/types";
+import { Steps } from "@/app/types/types";
 
 interface colorConfiguration {
   [key: string]: string;

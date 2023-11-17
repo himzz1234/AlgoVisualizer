@@ -1,4 +1,4 @@
-import { Steps } from "@/types/types";
+import { Steps } from "@/app/types/types";
 
 // Bubble Sort
 export function BubbleSort(array: Array<Number>) {

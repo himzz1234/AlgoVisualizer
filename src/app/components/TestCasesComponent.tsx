@@ -1,7 +1,7 @@
 import React, { useRef, useContext } from "react";
-import { AnimationContext } from "@/context/AnimationContext";
-import { AlgoContext } from "@/context/AlgoContext";
-import { AlgoMetadata, AlgoMetrics } from "@/types/types";
+import { AnimationContext } from "@/app/context/AnimationContext";
+import { AlgoContext } from "@/app/context/AlgoContext";
+import { AlgoMetadata, AlgoMetrics } from "@/app/types/types";
 
 interface TestCasesProps {
   selectedAlgo: AlgoMetadata;

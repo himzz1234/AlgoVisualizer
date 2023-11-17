@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useState, useRef, ReactNode } from "react";
-import { Steps } from "@/types/types";
+import { Steps } from "@/app/types/types";
 
 interface Props {
   children?: ReactNode; // optional

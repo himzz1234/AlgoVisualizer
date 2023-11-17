@@ -1,4 +1,4 @@
-import { AlgorithmOption } from "@/types/types";
+import { AlgorithmOption } from "@/app/types/types";
 export const algoOptions: AlgorithmOption[] = [
   {
     category: "Sort",

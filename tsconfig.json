@@ -28,8 +28,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/hooks/useAnimation.js",
-    "src/types/types.ts"
+    "src/app/hooks/useAnimation.js",
+    "src/app/types/types.ts"
   ],
   "exclude": ["node_modules"]
 }

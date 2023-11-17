@@ -1,10 +1,8 @@
 import Link from "next/link";
-import { useContext } from "react";
 import { TiSortNumericallyOutline } from "react-icons/ti";
 import { BiSearchAlt } from "react-icons/bi";
 import { PiGraphDuotone, PiTreeStructure } from "react-icons/pi";
 import { useRouter } from "next/navigation";
-import { AlgoContext } from "@/context/AlgoContext";
 
 type CardProps = {
   name: string;
@@ -15,7 +13,6 @@ type CardProps = {
 type IconType = typeof TiSortNumericallyOutline;
 
 function AlgorithmCard({ name, disabled, color }: CardProps) {
-  const { setIsLoading } = useContext(AlgoContext)!;
   const router = useRouter();
   let Icon: IconType | null = TiSortNumericallyOutline;
 
@@ -42,7 +39,6 @@ function AlgorithmCard({ name, disabled, color }: CardProps) {
       style={{ borderTopColor: color }}
       onClick={() => {
         router.push(`/${name.toLowerCase()}`);
-        setIsLoading(true);
       }}
       className={`${
         disabled

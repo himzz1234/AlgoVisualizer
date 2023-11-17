@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { HiOutlineClipboardCopy } from "react-icons/hi";
-import coldWinterTheme from "@/theme/cold-winter.js";
+import coldWinterTheme from "@/app/theme/cold-winter.js";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { languageOptions } from "@/util/data";
+import { languageOptions } from "@/app/utils/data";
 import Select, { ActionMeta } from "react-select";
-import { codeblockstyles } from "@/util/dropdown-styles";
+import { codeblockstyles } from "@/app/utils/dropdown-styles";
 import { MdDone } from "react-icons/md";
-import { AlgoMetadata } from "@/types/types";
+import { AlgoMetadata } from "@/app/types/types";
 
 type codeProps = {
   selectedAlgo: AlgoMetadata;

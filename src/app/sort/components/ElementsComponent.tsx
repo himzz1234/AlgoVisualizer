@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useRef, useContext } from "react";
 import {
   BubbleSort,
@@ -8,10 +6,10 @@ import {
   SelectionSort,
   HeapSort,
   ShellSort,
-} from "@/algorithms/sortingAlgos";
-import { AlgoMetrics, Steps } from "@/types/types";
-import { AlgoContext } from "@/context/AlgoContext";
-import { AnimationContext } from "@/context/AnimationContext";
+} from "@/app/sort/utils/algorithms";
+import { AlgoMetrics, Steps } from "@/app/types/types";
+import { AlgoContext } from "@/app/context/AlgoContext";
+import { AnimationContext } from "@/app/context/AnimationContext";
 
 interface ElementsProps {
   elements: number[];
@@ -57,7 +55,7 @@ export default function Elements({
       return `${height + 1}px`;
     }
 
-    return "";
+    return "76px";
   };
 
   useEffect(() => {
