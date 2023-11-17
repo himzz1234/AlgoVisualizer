@@ -1,8 +1,5 @@
-"use client";
-
 import "./globals.css";
-
-import { Tooltip } from "react-tooltip";
+import ToolTip from "./components/ToolTipComponent";
 
 export const metadata = {
   title: "AlgoVisualizer",
@@ -21,15 +18,7 @@ export default function RootLayout({
         className={`font-['Inter'] bg-[#041c32] flex flex-col w-full min-h-screen text-white`}
       >
         {children}
-        <Tooltip
-          id="my-tooltip"
-          place="top-start"
-          opacity={1}
-          style={{
-            backgroundColor: "#064663",
-            color: "white",
-          }}
-        />
+        <ToolTip />
       </body>
     </html>
   );

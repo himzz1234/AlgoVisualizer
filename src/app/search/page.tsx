@@ -60,8 +60,8 @@ function Search() {
         recycle={false}
         tweenDuration={2000}
         numberOfPieces={500}
-        width={dimensions.width - 20}
-        height={dimensions.height - 20}
+        width={dimensions.width - 10}
+        height={dimensions.height - 10}
         run={currentRef.current!.active.type == "match"}
         onConfettiComplete={(confetti) => confetti?.reset()}
       />
