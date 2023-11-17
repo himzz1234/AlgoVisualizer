@@ -1,5 +1,5 @@
 import "./globals.css";
-import ToolTip from "./components/ToolTipComponent";
+import ToolTip from "./components/TooltipComponent";
 
 export const metadata = {
   title: "AlgoVisualizer",
