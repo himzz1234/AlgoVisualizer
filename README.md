@@ -4,7 +4,7 @@
 
 ## Introduction
 
-Welcome to the Sorting Algorithm Visualizer app repository! This application is designed to help you visualize various sorting algorithms in action. Built using Next.js and TypeScript, this interactive tool allows you to input your own data or use existing test cases, view the algorithm's code, control the visualization speed, and pause at any point to observe the sorting process in detail.
+Welcome to the Algorithm Visualizer app repository! This application is designed to help you visualize various sorting algorithms in action. Built using Next.js and TypeScript, this interactive tool allows you to input your own data or use existing test cases, view the algorithm's code, control the visualization speed, and pause at any point to observe the sorting process in detail.
 
 🌐 Visit [Sorting Algorithm Visualizer](https://algo-visualizer-one.vercel.app/)
 
